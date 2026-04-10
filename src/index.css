@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --australe-green: #2D7060;
+  --australe-green-light: #3D9080;
+  --australe-gold: #C4A35A;
+  --bg-primary: #0A110E;
+  --bg-secondary: #111A15;
+  --bg-card: #161F19;
+  --text-primary: #F0F4F1;
+  --text-secondary: #8FA89A;
+  --text-muted: #5A7A6A;
+  --border-green: rgba(45,112,96,0.2);
+  --border-gold: rgba(196,163,90,0.3);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+.font-display { font-family: 'Sora', sans-serif; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--australe-green); border-radius: 3px; }
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scoreCount {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-fadeInUp { animation: fadeInUp 0.4s ease forwards; }
+.animate-score { animation: scoreCount 0.5s ease forwards; }
+
+/* Cascade animations — page résultats */
+.cascade-1 { animation: fadeInUp 0.4s ease 0.0s both; }
+.cascade-2 { animation: fadeInUp 0.4s ease 0.1s both; }
+.cascade-3 { animation: fadeInUp 0.4s ease 0.2s both; }
+.cascade-4 { animation: fadeInUp 0.4s ease 0.3s both; }
+.cascade-5 { animation: fadeInUp 0.4s ease 0.4s both; }
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* PDF — fond blanc forcé */
+.pdf-export-target { background: white !important; color: #111 !important; }
+.pdf-export-target * { color: #111 !important; background: transparent !important; border-color: #ccc !important; }
+.pdf-header-only { display: none; }
+.pdf-export-target .pdf-header-only { display: block !important; }
