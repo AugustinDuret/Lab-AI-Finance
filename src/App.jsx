@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import { Turnstile } from '@marsidev/react-turnstile'
 import { useLanguage } from './hooks/useLanguage.js'
 import { computeRecommendation } from './engine/recommendationEngine.js'
 import Header from './components/Header.jsx'
@@ -35,11 +34,7 @@ export default function App() {
   })
   const [recommendation, setRecommendation] = useState(null)
   const [showSecondary, setShowSecondary] = useState(false)
-  const [turnstileToken, setTurnstileToken] = useState(null)
-  const [turnstileError, setTurnstileError] = useState(false)
   const resultsRef = useRef(null)
-
-  const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
   // Progress bar: auto-advance based on interactions
   useEffect(() => {
@@ -83,8 +78,6 @@ export default function App() {
   }
 
   const handleSubmit = () => {
-    if (!turnstileToken) { setTurnstileError(true); return }
-    setTurnstileError(false)
     setView(VIEWS.LOADING)
     setTimeout(() => {
       const result = computeRecommendation(answers)
@@ -98,7 +91,6 @@ export default function App() {
   const handleReset = () => {
     setView(VIEWS.HERO)
     setRecommendation(null)
-    setTurnstileToken(null)
     setActiveSection(0)
     setAnswers({
       teamSize: '', functions: [], sector: '', ecosystem: 'unknown',
@@ -415,27 +407,14 @@ export default function App() {
                   ? "L'analyse est générée en fonction de votre contexte exact."
                   : "The analysis is generated based on your exact context."}
               </p>
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
-                <Turnstile
-                  siteKey={TURNSTILE_SITE_KEY}
-                  onSuccess={token => { setTurnstileToken(token); setTurnstileError(false) }}
-                  onError={() => setTurnstileError(true)}
-                  onExpire={() => setTurnstileToken(null)}
-                />
-              </div>
-              {turnstileError && (
-                <p style={{ color: '#ef4444', fontSize: 12, marginBottom: 12 }}>{t.turnstileError}</p>
-              )}
               <button onClick={handleSubmit}
                 style={{
-                  background: turnstileToken ? 'var(--australe-green)' : 'var(--bg-secondary)',
+                  background: 'var(--australe-green)',
                   color: 'var(--text-primary)', borderRadius: 50, padding: '16px 48px',
                   fontSize: 16, fontWeight: 600, fontFamily: 'Inter',
-                  border: `1px solid ${turnstileToken ? 'transparent' : 'var(--border-green)'}`,
-                  cursor: turnstileToken ? 'pointer' : 'not-allowed',
-                  opacity: turnstileToken ? 1 : 0.55, transition: 'all 200ms',
+                  border: 'none', cursor: 'pointer', transition: 'all 200ms',
                   width: '100%', maxWidth: 360,
-                  boxShadow: turnstileToken ? '0 0 30px rgba(45,112,96,0.25)' : 'none'
+                  boxShadow: '0 0 30px rgba(45,112,96,0.25)'
                 }}>
                 {t.ctaSubmit} →
               </button>
@@ -591,12 +570,11 @@ export default function App() {
           background: 'linear-gradient(transparent, var(--bg-primary) 40%)',
           zIndex: 40
         }} className="md:hidden">
-          <button onClick={handleSubmit} disabled={!turnstileToken}
+          <button onClick={handleSubmit}
             style={{
-              background: turnstileToken ? 'var(--australe-green)' : 'var(--bg-secondary)',
+              background: 'var(--australe-green)',
               color: 'var(--text-primary)', borderRadius: 50, padding: '14px', fontSize: 15, fontWeight: 600,
-              width: '100%', border: 'none', opacity: !turnstileToken ? 0.5 : 1,
-              cursor: !turnstileToken ? 'not-allowed' : 'pointer'
+              width: '100%', border: 'none', cursor: 'pointer'
             }}>
             {t.ctaSubmit} →
           </button>

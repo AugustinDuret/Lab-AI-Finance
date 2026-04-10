@@ -13,7 +13,6 @@
     "start": "npx serve dist -p $PORT"
   },
   "dependencies": {
-    "@marsidev/react-turnstile": "^1.5.0",
     "@tailwindcss/vite": "^4.2.2",
     "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.27",
