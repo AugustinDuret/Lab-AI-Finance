@@ -39,7 +39,7 @@ export default function App() {
   const [turnstileError, setTurnstileError] = useState(false)
   const resultsRef = useRef(null)
 
-  const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'
+  const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
   // Progress bar: auto-advance based on interactions
   useEffect(() => {
