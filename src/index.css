@@ -57,6 +57,10 @@ body {
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
 
 /* PDF — fond blanc forcé */
 .pdf-export-target { background: white !important; color: #111 !important; }

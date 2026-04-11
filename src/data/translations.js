@@ -8,7 +8,7 @@ export const translations = {
     heroTitle: "Trouvez l'outil IA\nfait pour votre équipe Finance",
     heroSubtitle: "Répondez à quelques questions sur votre contexte - obtenez une recommandation personnalisée avec mapping des tâches et prompts opérationnels.",
     heroCta: "Commencer l'analyse",
-    heroTime: "2 minutes · 100% gratuit",
+    heroTime: "2 minutes · Gratuit",
 
     // Formulaire
     formTitle: "Votre contexte Finance",
@@ -56,9 +56,19 @@ export const translations = {
     tasksHint: "Choisissez les tâches où vous souhaitez gagner du temps avec l'IA",
 
     // Q8 budget
-    q8Label: "Budget mensuel envisagé pour un outil IA",
-    q8Free: "Gratuit",
-    q8Max: "1 000€+/mois",
+    q8Label: "Budget pour un outil IA",
+    q8Options: [
+      {
+        id: "free",
+        label: "Version gratuite",
+        desc: "Je veux tester sans engagement financier"
+      },
+      {
+        id: "paid",
+        label: "Prêt à payer",
+        desc: "Je cherche la meilleure solution, le prix n'est pas un frein"
+      }
+    ],
 
     // Q9 sensibilité
     q9Label: "Sensibilité de vos données Finance",
@@ -114,7 +124,7 @@ export const translations = {
     heroTitle: "Find the AI tool\nbuilt for your Finance team",
     heroSubtitle: "Answer a few questions about your context - get a personalised recommendation with task mapping and operational prompts.",
     heroCta: "Start the analysis",
-    heroTime: "2 minutes · 100% free",
+    heroTime: "2 minutes · Free",
     formTitle: "Your Finance context",
     sectionTeam: "Your team",
     sectionTech: "Technology environment",
@@ -144,9 +154,19 @@ export const translations = {
     q6Options: ["Yes, mandatory", "No, free usage", "I don't know"],
     tasksLabel: "Select your priority tasks",
     tasksHint: "Choose the tasks where you want to save time with AI",
-    q8Label: "Monthly budget for an AI tool",
-    q8Free: "Free",
-    q8Max: "£1,000+/month",
+    q8Label: "Budget for an AI tool",
+    q8Options: [
+      {
+        id: "free",
+        label: "Free version",
+        desc: "I want to test without financial commitment"
+      },
+      {
+        id: "paid",
+        label: "Ready to pay",
+        desc: "I'm looking for the best solution, price is not a barrier"
+      }
+    ],
     q9Label: "Sensitivity of your Finance data",
     q9Options: [
       { id: "low", label: "Anonymised / aggregated data", desc: "No personal or confidential data" },

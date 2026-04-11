@@ -8,6 +8,7 @@ import ResultsCard from './components/ResultsCard.jsx'
 import PdfExportButton from './components/PdfExportButton.jsx'
 import Footer from './components/Footer.jsx'
 import AnimatedBackground from './components/AnimatedBackground.jsx'
+import FinanceSphere from './components/FinanceSphere.jsx'
 
 const VIEWS = { HERO: 'hero', FORM: 'form', LOADING: 'loading', RESULTS: 'results' }
 
@@ -28,7 +29,7 @@ export default function App() {
     dailyTools: [],
     dsiValidation: 'unknown',
     selectedTasks: [],
-    budget: 50,
+    budget: '',
     dataSensitivity: 'medium',
     rgpdRequirements: [],
   })
@@ -55,7 +56,7 @@ export default function App() {
   }, [answers.selectedTasks])
 
   useEffect(() => {
-    if (answers.budget !== 50 || answers.dataSensitivity !== 'medium' || answers.rgpdRequirements.length > 0) {
+    if (answers.budget !== '' || answers.dataSensitivity !== 'medium' || answers.rgpdRequirements.length > 0) {
       setActiveSection(prev => Math.max(prev, 3))
     }
   }, [answers.budget, answers.dataSensitivity, answers.rgpdRequirements])
@@ -95,7 +96,7 @@ export default function App() {
     setAnswers({
       teamSize: '', functions: [], sector: '', ecosystem: 'unknown',
       dailyTools: [], dsiValidation: 'unknown', selectedTasks: [],
-      budget: 50, dataSensitivity: 'medium', rgpdRequirements: [],
+      budget: '', dataSensitivity: 'medium', rgpdRequirements: [],
     })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -339,22 +340,51 @@ export default function App() {
               <div style={sectionBody}>
                 {/* Budget */}
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                    <label style={{ ...labelStyle, marginBottom: 0 }}>{t.q8Label}</label>
-                    <span style={{
-                      background: 'rgba(196,163,90,0.12)', border: '1px solid var(--border-gold)',
-                      borderRadius: 8, padding: '4px 12px',
-                      fontSize: 13, fontWeight: 700, color: 'var(--australe-gold)', fontFamily: 'Sora'
-                    }}>
-                      {answers.budget === 0 ? t.q8Free : answers.budget >= 1000 ? t.q8Max : `${answers.budget}€/mois`}
-                    </span>
-                  </div>
-                  <input type="range" min="0" max="1000" step="10" value={answers.budget}
-                    onChange={e => { updateAnswer('budget', Number(e.target.value)); setActiveSection(s => Math.max(s, 3)) }}
-                    style={{ width: '100%', accentColor: 'var(--australe-green)', height: 4 }} />
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{t.q8Free}</span>
-                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{t.q8Max}</span>
+                  <label style={labelStyle}>{t.q8Label}</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {t.q8Options.map(opt => {
+                      const selected = answers.budget === opt.id;
+                      return (
+                        <button
+                          key={opt.id}
+                          onClick={() => {
+                            updateAnswer('budget', opt.id);
+                            setActiveSection(prev => Math.max(prev, 3));
+                          }}
+                          style={{
+                            padding: '14px 18px',
+                            borderRadius: 10,
+                            cursor: 'pointer',
+                            border: `1px solid ${selected ? 'var(--australe-green)' : 'var(--border-green)'}`,
+                            background: selected ? 'rgba(45,112,96,0.12)' : 'transparent',
+                            textAlign: 'left',
+                            transition: 'all 150ms',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                          }}
+                        >
+                          <div>
+                            <div style={{
+                              fontWeight: 600, fontSize: 14,
+                              color: selected ? 'var(--text-primary)' : 'var(--text-secondary)',
+                              marginBottom: 3
+                            }}>
+                              {opt.label}
+                            </div>
+                            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                              {opt.desc}
+                            </div>
+                          </div>
+                          {selected && (
+                            <span style={{
+                              color: 'var(--australe-green)',
+                              fontSize: 18, fontWeight: 700, flexShrink: 0, marginLeft: 12
+                            }}>✓</span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
                 {/* Sensibilité */}
@@ -426,20 +456,50 @@ export default function App() {
 
       {/* ── LOADING ───────────────────────────────────────────── */}
       {view === VIEWS.LOADING && (
-        <main style={{ textAlign: 'center', padding: '80px 24px' }} className="animate-fadeInUp">
-          <div style={{
-            width: 60, height: 60, borderRadius: '50%',
-            border: '3px solid var(--border-green)',
-            borderTopColor: 'var(--australe-gold)',
-            animation: 'spin 0.9s linear infinite',
-            margin: '0 auto 28px'
-          }} />
-          <p style={{ fontFamily: 'Sora', fontWeight: 600, fontSize: 20, color: 'var(--text-primary)', marginBottom: 8 }}>
+        <main style={{ textAlign: 'center', padding: '60px 24px' }}
+          className="animate-fadeInUp">
+
+          {/* Sphère Finance animée */}
+          <FinanceSphere size={220} />
+
+          {/* Texte sous la sphère */}
+          <p style={{
+            fontFamily: 'Sora, sans-serif',
+            fontWeight: 600,
+            fontSize: 18,
+            color: 'var(--text-primary)',
+            marginTop: 32,
+            marginBottom: 8
+          }}>
             {lang === 'fr' ? 'Analyse en cours...' : 'Analysing...'}
           </p>
-          <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>
-            {lang === 'fr' ? "L'IA analyse votre contexte Finance" : 'AI is analysing your Finance context'}
+          <p style={{
+            color: 'var(--text-secondary)',
+            fontSize: 13,
+            lineHeight: 1.5
+          }}>
+            {lang === 'fr'
+              ? 'La matrice évalue votre contexte Finance'
+              : 'The matrix is evaluating your Finance context'}
           </p>
+
+          {/* Indicateur de progression subtil */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 6,
+            marginTop: 24
+          }}>
+            {[0, 1, 2].map(i => (
+              <div key={i} style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: 'var(--australe-green)',
+                animation: `pulse 1.4s ease-in-out ${i * 0.2}s infinite`
+              }} />
+            ))}
+          </div>
         </main>
       )}
 

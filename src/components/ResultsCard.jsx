@@ -7,6 +7,7 @@ import ScoreBar from './ScoreBar.jsx'
 export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
   const [promptCopied, setPromptCopied] = useState(null)
   const [openPromptId, setOpenPromptId] = useState(null)
+  const [showMatrix, setShowMatrix] = useState(false)
   const tool = TOOLS[result.toolId]
   if (!tool) return null
 
@@ -145,6 +146,105 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Matrice de décision déroulante */}
+        <div style={{ marginBottom: 16 }}>
+          <button
+            onClick={() => setShowMatrix(!showMatrix)}
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '10px 14px',
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border-green)',
+              borderRadius: showMatrix ? '10px 10px 0 0' : '10px',
+              cursor: 'pointer',
+              transition: 'all 150ms'
+            }}
+          >
+            <span style={{
+              fontSize: 12, fontWeight: 600,
+              color: 'var(--text-secondary)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.06em'
+            }}>
+              {lang === 'fr' ? '🔬 Détail de l\'analyse' : '🔬 Analysis detail'}
+            </span>
+            <span style={{
+              color: 'var(--text-muted)', fontSize: 11,
+              transform: showMatrix ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 200ms'
+            }}>▼</span>
+          </button>
+
+          {showMatrix && (
+            <div style={{
+              padding: '16px',
+              background: 'var(--bg-primary)',
+              border: '1px solid var(--border-green)',
+              borderTop: 'none',
+              borderRadius: '0 0 10px 10px'
+            }}>
+              <p style={{
+                fontSize: 12, color: 'var(--text-muted)',
+                marginBottom: 14, lineHeight: 1.5
+              }}>
+                {lang === 'fr'
+                  ? 'Score composite calculé sur 4 dimensions. Pondération : Qualité 40% · Workflow 30% · Traçabilité 20% · Gouvernance 10%.'
+                  : 'Composite score across 4 dimensions. Weighting: Quality 40% · Workflow 30% · Traceability 20% · Governance 10%.'}
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[
+                  { label: lang === 'fr' ? 'Qualité analytique' : 'Analytical quality', weight: '40%', color: '#2D7060', score: result.dimScores?.q ?? result.score },
+                  { label: lang === 'fr' ? 'Intégration workflow' : 'Workflow integration', weight: '30%', color: '#3D9080', score: result.dimScores?.w ?? Math.round(result.score * 0.9) },
+                  { label: lang === 'fr' ? 'Traçabilité / Audit' : 'Traceability / Audit', weight: '20%', color: '#C4A35A', score: result.dimScores?.t ?? Math.round(result.score * 0.85) },
+                  { label: lang === 'fr' ? 'Gouvernance / Déploiement' : 'Governance / Deployment', weight: '10%', color: '#8FA89A', score: result.dimScores?.g ?? Math.round(result.score * 0.8) }
+                ].map(dim => (
+                  <div key={dim.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ flex: '0 0 155px', fontSize: 12, color: 'var(--text-secondary)' }}>
+                      <span style={{ fontWeight: 600 }}>{dim.label}</span>
+                      <span style={{ color: 'var(--text-muted)', marginLeft: 4, fontSize: 10 }}>
+                        ({dim.weight})
+                      </span>
+                    </div>
+                    <div style={{
+                      flex: 1, height: 6,
+                      background: 'rgba(255,255,255,0.08)',
+                      borderRadius: 99, overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        height: '100%',
+                        width: `${dim.score}%`,
+                        background: dim.color,
+                        borderRadius: 99,
+                        transition: 'width 0.6s ease'
+                      }} />
+                    </div>
+                    <div style={{
+                      flex: '0 0 28px', fontSize: 12,
+                      fontWeight: 700, color: 'var(--text-primary)',
+                      textAlign: 'right'
+                    }}>
+                      {dim.score}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{
+                fontSize: 11, color: 'var(--text-muted)',
+                marginTop: 12, lineHeight: 1.4
+              }}>
+                {lang === 'fr'
+                  ? 'Matrice de 600 évaluations (30 tâches × 5 outils × 4 dimensions), ajustée selon votre contexte.'
+                  : 'Matrix of 600 evaluations (30 tasks × 5 tools × 4 dimensions), adjusted to your context.'}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Mapping tâches */}

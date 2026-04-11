@@ -290,14 +290,16 @@ export function computeRecommendation(answers) {
   if (dsiValidation === 'no') {
     adjustedScores.copilot = Math.max(0, adjustedScores.copilot - 8)
   }
-  if (budget === 0) {
+  const isFreeOnly = budget === 'free'
+  if (isFreeOnly) {
+    // Copilot nécessite 30$/user/mois minimum - pénaliser fortement
     adjustedScores.copilot = Math.max(0, adjustedScores.copilot - 20)
-  }
-  if (budget < 30) {
+    // Favoriser les outils avec plan gratuit viable
     adjustedScores.claude  = Math.min(100, adjustedScores.claude  + 5)
     adjustedScores.chatgpt = Math.min(100, adjustedScores.chatgpt + 5)
     adjustedScores.mistral = Math.min(100, adjustedScores.mistral + 5)
   }
+  // Si budget paid : aucun ajustement, tous les outils sont accessibles
 
   // 3. Éliminer les outils avec score 0
   const eligibleTools = TOOL_IDS.filter(id => adjustedScores[id] > 0)
@@ -306,6 +308,32 @@ export function computeRecommendation(answers) {
   const ranked = eligibleTools.sort((a, b) => adjustedScores[b] - adjustedScores[a])
 
   // 5. Construire le détail des tâches pour les 2 premiers outils
+  function buildDimScores(toolId, taskIds) {
+    const tasks = taskIds.length > 0
+      ? taskIds
+      : Object.keys(TASK_TOOL_AFFINITY)
+
+    let totalQ = 0, totalW = 0, totalT = 0, totalG = 0, count = 0
+    tasks.forEach(taskId => {
+      const dims = TASK_TOOL_AFFINITY[taskId]?.[toolId]
+      if (dims) {
+        totalQ += dims.q
+        totalW += dims.w
+        totalT += dims.t
+        totalG += dims.g
+        count++
+      }
+    })
+
+    if (count === 0) return { q: 0, w: 0, t: 0, g: 0 }
+    return {
+      q: Math.round(totalQ / count),
+      w: Math.round(totalW / count),
+      t: Math.round(totalT / count),
+      g: Math.round(totalG / count)
+    }
+  }
+
   function buildTaskDetail(toolId) {
     if (selectedTasks.length === 0) return []
     const tasks = selectedTasks
@@ -327,11 +355,13 @@ export function computeRecommendation(answers) {
       toolId: ranked[0],
       score: adjustedScores[ranked[0]],
       taskDetails: buildTaskDetail(ranked[0]),
+      dimScores: buildDimScores(ranked[0], selectedTasks),
     },
     secondary: ranked[1] ? {
       toolId: ranked[1],
       score: adjustedScores[ranked[1]],
       taskDetails: buildTaskDetail(ranked[1]),
+      dimScores: buildDimScores(ranked[1], selectedTasks),
     } : null,
     allScores: adjustedScores,
     isSensitive,
