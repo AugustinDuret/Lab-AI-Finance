@@ -9,6 +9,8 @@ import PdfExportButton from './components/PdfExportButton.jsx'
 import Footer from './components/Footer.jsx'
 import AnimatedBackground from './components/AnimatedBackground.jsx'
 import FinanceSphere from './components/FinanceSphere.jsx'
+import { TOOLS } from './data/tools.js'
+import { TASKS_BY_ID } from './data/tasks.js'
 
 const VIEWS = { HERO: 'hero', FORM: 'form', LOADING: 'loading', RESULTS: 'results' }
 
@@ -216,7 +218,8 @@ export default function App() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
 
             {/* Section 1 - Équipe */}
-            <div style={sectionCard}>
+            <div style={{ ...sectionCard, position: 'relative' }}>
+              <span style={{ position: 'absolute', top: 14, right: 18, fontSize: 20, opacity: 0.35, pointerEvents: 'none', userSelect: 'none', zIndex: 1 }}>👥</span>
               {makeSectionHeader(1, t.sectionTeam)}
               <div style={sectionBody}>
                 <div onFocus={() => setActiveSection(s => Math.max(s, 0))}>
@@ -256,7 +259,8 @@ export default function App() {
             </div>
 
             {/* Section 2 - Tech */}
-            <div style={sectionCard}>
+            <div style={{ ...sectionCard, position: 'relative' }}>
+              <span style={{ position: 'absolute', top: 14, right: 18, fontSize: 20, opacity: 0.35, pointerEvents: 'none', userSelect: 'none', zIndex: 1 }}>💻</span>
               {makeSectionHeader(2, t.sectionTech)}
               <div style={sectionBody}>
                 <div>
@@ -326,7 +330,8 @@ export default function App() {
             </div>
 
             {/* Section 3 - Tâches */}
-            <div style={sectionCard}>
+            <div style={{ ...sectionCard, position: 'relative' }}>
+              <span style={{ position: 'absolute', top: 14, right: 18, fontSize: 20, opacity: 0.35, pointerEvents: 'none', userSelect: 'none', zIndex: 1 }}>🎯</span>
               {makeSectionHeader(3, t.sectionTasks)}
               <div style={{ padding: '20px 28px 24px' }}>
                 <label style={labelStyle}>{t.tasksLabel}</label>
@@ -335,7 +340,8 @@ export default function App() {
             </div>
 
             {/* Section 4 - Contraintes */}
-            <div style={sectionCard}>
+            <div style={{ ...sectionCard, position: 'relative' }}>
+              <span style={{ position: 'absolute', top: 14, right: 18, fontSize: 20, opacity: 0.35, pointerEvents: 'none', userSelect: 'none', zIndex: 1 }}>🔒</span>
               {makeSectionHeader(4, t.sectionConstraints)}
               <div style={sectionBody}>
                 {/* Budget */}
@@ -460,7 +466,7 @@ export default function App() {
           className="animate-fadeInUp">
 
           {/* Sphère Finance animée */}
-          <FinanceSphere size={220} />
+          <FinanceSphere size={330} />
 
           {/* Texte sous la sphère */}
           <p style={{
@@ -604,6 +610,117 @@ export default function App() {
                 )}
               </div>
             )}
+          </div>
+
+          {/* Div d'impression — caché à l'écran, visible uniquement en @media print */}
+          <div id="print-target" style={{ display: 'none' }}>
+            <div id="print-header">
+              <div style={{ fontSize: 20, fontWeight: 800, color: '#2D7060', fontFamily: 'Sora, Arial' }}>
+                Lab-AI-Finance
+              </div>
+              <div className="print-muted" style={{ fontSize: 12, marginTop: 4 }}>
+                Recommandation personnalisée · {new Date().toLocaleDateString('fr-FR')}
+              </div>
+              <div className="print-muted" style={{ fontSize: 11, marginTop: 3 }}>
+                by Augustin Duret · linkedin.com/in/augustin-duret
+              </div>
+            </div>
+
+            {/* Outil recommandé */}
+            {recommendation?.primary && (
+              <div className="print-card">
+                <div className="print-green" style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
+                  Outil recommandé
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 12 }}>
+                  {TOOLS[recommendation.primary.toolId]?.nameFr || recommendation.primary.toolId}
+                </div>
+
+                {/* Pourquoi cet outil */}
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+                    Pourquoi cet outil
+                  </div>
+                  {(TOOLS[recommendation.primary.toolId]?.whyFr || []).map((reason, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
+                      <span className="print-green" style={{ fontWeight: 700 }}>✓</span>
+                      <span>{reason}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Points de vigilance */}
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+                    Points de vigilance
+                  </div>
+                  {(TOOLS[recommendation.primary.toolId]?.vigilanceFr || []).map((v, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
+                      <span className="print-gold">⚠</span>
+                      <span>{v}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Budget */}
+                <div>
+                  <span style={{ fontWeight: 600 }}>Accès & tarifs : </span>
+                  {TOOLS[recommendation.primary.toolId]?.budgetFr}
+                </div>
+              </div>
+            )}
+
+            {/* Tâches sélectionnées */}
+            {answers?.selectedTasks?.length > 0 && (
+              <div className="print-card">
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+                  Vos tâches prioritaires
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {answers.selectedTasks.map(taskId => (
+                    <span key={taskId} style={{
+                      border: '1px solid #e0e0e0',
+                      borderRadius: 12,
+                      padding: '2px 10px',
+                      fontSize: 11
+                    }}>
+                      {TASKS_BY_ID[taskId]?.labelFr || taskId}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Profil utilisateur */}
+            <div className="print-card">
+              <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+                Votre profil
+              </div>
+              {answers?.functions?.length > 0 && (
+                <div style={{ marginBottom: 4 }}>
+                  <span style={{ fontWeight: 600 }}>Fonctions : </span>
+                  {answers.functions.join(', ')}
+                </div>
+              )}
+              {answers?.ecosystem && answers.ecosystem !== 'unknown' && (
+                <div style={{ marginBottom: 4 }}>
+                  <span style={{ fontWeight: 600 }}>Écosystème IT : </span>
+                  {answers.ecosystem === 'microsoft365' ? 'Microsoft 365'
+                    : answers.ecosystem === 'google' ? 'Google Workspace'
+                    : 'Mixte'}
+                </div>
+              )}
+              {answers?.sector && (
+                <div>
+                  <span style={{ fontWeight: 600 }}>Secteur : </span>
+                  {answers.sector}
+                </div>
+              )}
+            </div>
+
+            <div className="print-muted" style={{ textAlign: 'center', fontSize: 11, marginTop: 24 }}>
+              lab-ai-finance-production.up.railway.app
+            </div>
           </div>
 
           {/* Recommencer */}

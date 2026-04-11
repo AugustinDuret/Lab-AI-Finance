@@ -67,3 +67,61 @@ body {
 .pdf-export-target * { color: #111 !important; background: transparent !important; border-color: #ccc !important; }
 .pdf-header-only { display: none; }
 .pdf-export-target .pdf-header-only { display: block !important; }
+
+@media print {
+  /* Masquer tout sauf la section résultats */
+  body > * { display: none !important; }
+  #print-target { display: block !important; }
+
+  /* Reset général */
+  #print-target {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    color: #1a1a1a;
+    font-family: Inter, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Forcer couleurs lisibles */
+  #print-target * {
+    color: #1a1a1a !important;
+    background: white !important;
+    border-color: #e0e0e0 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Exceptions couleurs */
+  #print-target .print-green { color: #2D7060 !important; }
+  #print-target .print-gold { color: #C4A35A !important; }
+  #print-target .print-muted { color: #666666 !important; }
+
+  /* Cards */
+  #print-target .print-card {
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    break-inside: avoid;
+  }
+
+  /* Masquer les boutons et éléments interactifs */
+  button, .no-print { display: none !important; }
+
+  /* Sauts de page */
+  .print-break { page-break-before: always; }
+
+  /* Header PDF */
+  #print-header {
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #2D7060;
+    margin-bottom: 24px;
+  }
+}

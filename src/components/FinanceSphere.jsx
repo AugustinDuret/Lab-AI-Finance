@@ -52,23 +52,24 @@ export default function FinanceSphere({ size = 200 }) {
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
 
-      angle += 0.008;
+      angle += 0.005;
 
       // Trier par profondeur Z pour le rendu correct
       const projected = particles.map((p, i) => {
+        // Deux angles de rotation : horizontal + vertical lent
+        const angleV = angle * 0.3; // rotation verticale 3x plus lente
         const thetaAnim = p.theta + angle * (0.6 + i * 0.01);
-        const x = Math.sin(p.phi) * Math.cos(thetaAnim);
-        const y = Math.cos(p.phi);
-        const z = Math.sin(p.phi) * Math.sin(thetaAnim);
 
-        // Projection sur le canvas
-        const screenX = CENTER_X + x * RADIUS;
-        const screenY = CENTER_Y + y * RADIUS * 0.88; // légère compression Y = effet 3D
+        // Rotation 3D combinée
+        const x3d = Math.sin(p.phi) * Math.cos(thetaAnim);
+        const y3d = Math.cos(p.phi) * Math.cos(angleV) - Math.sin(p.phi) * Math.sin(thetaAnim) * Math.sin(angleV);
+        const z3d = Math.cos(p.phi) * Math.sin(angleV) + Math.sin(p.phi) * Math.sin(thetaAnim) * Math.cos(angleV);
 
-        // Profondeur : z va de -1 à +1
-        const depth = (z + 1) / 2; // 0 = loin, 1 = proche
+        const screenX = CENTER_X + x3d * RADIUS;
+        const screenY = CENTER_Y + y3d * RADIUS * 0.88;
+        const depth = (z3d + 1) / 2;
 
-        return { ...p, screenX, screenY, depth, z };
+        return { ...p, screenX, screenY, depth, z: z3d };
       });
 
       // Trier du plus loin au plus proche
@@ -121,17 +122,37 @@ export default function FinanceSphere({ size = 200 }) {
 
         ctx.fillText(p.symbol, p.screenX, p.screenY);
         ctx.restore();
+
+        if (depth > 0.85) {
+          ctx.save();
+          ctx.globalAlpha = (depth - 0.85) * 0.4;
+          ctx.font = `800 ${fontSize + 3}px 'Sora', Arial, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = p.isGold
+            ? 'rgba(196,163,90,0.3)'
+            : 'rgba(61,144,128,0.25)';
+          ctx.filter = 'blur(3px)';
+          ctx.fillText(p.symbol, p.screenX, p.screenY);
+          ctx.filter = 'none';
+          ctx.restore();
+        }
       });
 
-      // Halo central subtil
+      // Pulse lent : oscille entre 0 et 1 sur ~4 secondes
+      const pulse = (Math.sin(angle * 2) + 1) / 2;
+      const glowRadius = RADIUS * (0.22 + pulse * 0.08);
+      const glowOpacity = 0.05 + pulse * 0.06;
+
       const gradient = ctx.createRadialGradient(
         CENTER_X, CENTER_Y, 0,
-        CENTER_X, CENTER_Y, RADIUS * 0.3
+        CENTER_X, CENTER_Y, glowRadius
       );
-      gradient.addColorStop(0, 'rgba(45,112,96,0.08)');
+      gradient.addColorStop(0, `rgba(196,163,90,${glowOpacity * 1.5})`);
+      gradient.addColorStop(0.4, `rgba(45,112,96,${glowOpacity})`);
       gradient.addColorStop(1, 'rgba(45,112,96,0)');
       ctx.beginPath();
-      ctx.arc(CENTER_X, CENTER_Y, RADIUS * 0.3, 0, Math.PI * 2);
+      ctx.arc(CENTER_X, CENTER_Y, glowRadius, 0, Math.PI * 2);
       ctx.fillStyle = gradient;
       ctx.fill();
 
