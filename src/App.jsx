@@ -533,7 +533,7 @@ export default function App() {
                 <h2 style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 24, color: 'var(--text-primary)' }}>
                   {t.resultsTitle}
                 </h2>
-                <PdfExportButton t={t} />
+                <PdfExportButton t={t} recommendation={recommendation} answers={answers} lang={lang} />
               </div>
 
               {/* Mini-résumé profil */}
