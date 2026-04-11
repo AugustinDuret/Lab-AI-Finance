@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/augustinduret/Lab-Ai-Finance/lab-ai-finance && git add -A 2>/dev/null; git diff --cached --quiet || { FILES=$(git diff --cached --name-only | sed 's|.*/||' | head -5 | tr '\\n' ' ' | sed 's/ $//'); git commit -m \"update: ${FILES:-changements}\" && git push origin main; } 2>/dev/null; true",
+            "timeout": 30,
+            "statusMessage": "Git add · commit · push..."
+          }
+        ]
+      }
+    ]
+  }
+}

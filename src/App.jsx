@@ -219,7 +219,7 @@ export default function App() {
 
             {/* Section 1 - Équipe */}
             <div style={{ ...sectionCard, position: 'relative' }}>
-              <span style={{ position: 'absolute', top: 14, right: 18, fontSize: 20, opacity: 0.35, pointerEvents: 'none', userSelect: 'none', zIndex: 1 }}>👥</span>
+              <span style={{ position: 'absolute', top: 12, right: 14, width: 32, height: 32, borderRadius: '50%', background: 'rgba(196,163,90,0.12)', border: '1px solid rgba(196,163,90,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, pointerEvents: 'none', userSelect: 'none', zIndex: 1, flexShrink: 0 }}>👥</span>
               {makeSectionHeader(1, t.sectionTeam)}
               <div style={sectionBody}>
                 <div onFocus={() => setActiveSection(s => Math.max(s, 0))}>
@@ -260,7 +260,7 @@ export default function App() {
 
             {/* Section 2 - Tech */}
             <div style={{ ...sectionCard, position: 'relative' }}>
-              <span style={{ position: 'absolute', top: 14, right: 18, fontSize: 20, opacity: 0.35, pointerEvents: 'none', userSelect: 'none', zIndex: 1 }}>💻</span>
+              <span style={{ position: 'absolute', top: 12, right: 14, width: 32, height: 32, borderRadius: '50%', background: 'rgba(196,163,90,0.12)', border: '1px solid rgba(196,163,90,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, pointerEvents: 'none', userSelect: 'none', zIndex: 1, flexShrink: 0 }}>💻</span>
               {makeSectionHeader(2, t.sectionTech)}
               <div style={sectionBody}>
                 <div>
@@ -331,7 +331,7 @@ export default function App() {
 
             {/* Section 3 - Tâches */}
             <div style={{ ...sectionCard, position: 'relative' }}>
-              <span style={{ position: 'absolute', top: 14, right: 18, fontSize: 20, opacity: 0.35, pointerEvents: 'none', userSelect: 'none', zIndex: 1 }}>🎯</span>
+              <span style={{ position: 'absolute', top: 12, right: 14, width: 32, height: 32, borderRadius: '50%', background: 'rgba(196,163,90,0.12)', border: '1px solid rgba(196,163,90,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, pointerEvents: 'none', userSelect: 'none', zIndex: 1, flexShrink: 0 }}>🎯</span>
               {makeSectionHeader(3, t.sectionTasks)}
               <div style={{ padding: '20px 28px 24px' }}>
                 <label style={labelStyle}>{t.tasksLabel}</label>
@@ -341,7 +341,7 @@ export default function App() {
 
             {/* Section 4 - Contraintes */}
             <div style={{ ...sectionCard, position: 'relative' }}>
-              <span style={{ position: 'absolute', top: 14, right: 18, fontSize: 20, opacity: 0.35, pointerEvents: 'none', userSelect: 'none', zIndex: 1 }}>🔒</span>
+              <span style={{ position: 'absolute', top: 12, right: 14, width: 32, height: 32, borderRadius: '50%', background: 'rgba(196,163,90,0.12)', border: '1px solid rgba(196,163,90,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, pointerEvents: 'none', userSelect: 'none', zIndex: 1, flexShrink: 0 }}>🔒</span>
               {makeSectionHeader(4, t.sectionConstraints)}
               <div style={sectionBody}>
                 {/* Budget */}
