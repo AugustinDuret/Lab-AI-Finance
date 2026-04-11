@@ -102,9 +102,6 @@ export const translations = {
     exportPdfLoading: "Génération...",
     exportPdfError: "Export PDF indisponible, veuillez réessayer",
 
-    // Turnstile
-    turnstileError: "Vérification échouée. Veuillez réessayer.",
-
     // Footer
     footerMade: "Lab-AI-Finance by",
     footerDiscuss: "Vous voulez en discuter ?",
@@ -182,7 +179,6 @@ export const translations = {
     exportPdf: "Export as PDF",
     exportPdfLoading: "Generating...",
     exportPdfError: "PDF export unavailable, please try again",
-    turnstileError: "Verification failed. Please try again.",
     footerMade: "Lab-AI-Finance by",
     footerDiscuss: "Want to discuss?",
     footerLinkedIn: "Augustin Duret",

@@ -7,13 +7,14 @@ export default function PdfExportButton({ t }) {
   const handleExport = async () => {
     setLoading(true);
     setError(false);
+    let container = null;
     try {
       const html2pdf = (await import('html2pdf.js')).default;
       const source = document.getElementById('results-section');
       if (!source) { setError(true); setLoading(false); return; }
 
       // Créer un conteneur temporaire hors écran
-      const container = document.createElement('div');
+      container = document.createElement('div');
       container.style.cssText = `
         position: fixed; left: -9999px; top: 0;
         width: 800px; background: #ffffff;
@@ -111,7 +112,7 @@ export default function PdfExportButton({ t }) {
 
     } catch (e) {
       console.error('PDF error:', e);
-      document.querySelectorAll('[data-pdf-container]').forEach(el => el.remove());
+      if (container && container.parentNode) container.parentNode.removeChild(container);
       setError(true);
     }
     setLoading(false);

@@ -143,33 +143,3 @@ export const TOOLS = {
     startStepsEn: ["Create an account at chat.mistral.ai", "For enterprise/sensitive data use: contact Mistral for a DPA agreement", "Test Le Chat Pro for document and compliance tasks"],
   },
 }
-
-// Prompts exemples
-export const PROMPT_EXAMPLES = {
-  variance_analysis: {
-    fr: "Agis comme analyste FP&A senior. Voici notre P&L du mois [coller les données]. Identifie les 3 principaux drivers de variance actuals vs budget. Pour chaque driver, distingue l'effet volume, l'effet prix et l'effet mix. Présente ta réponse sous forme de tableau synthétique puis d'un paragraphe d'explication pour le CODIR.",
-    en: "Act as a senior FP&A analyst. Here is our monthly P&L [paste data]. Identify the 3 main variance drivers vs budget. For each driver, distinguish the volume effect, price effect and mix effect. Present your answer as a summary table followed by a paragraph for the Board."
-  },
-  board_pack_commentary: {
-    fr: "Tu es directeur financier. Voici les résultats [période] de [entité] : [coller les données]. Rédige un commentaire exécutif de 150 mots maximum. Mets en avant 2 points positifs et 1 point d'attention. Ton direct, pas de jargon, style board pack.",
-    en: "You are a CFO. Here are the [period] results for [entity]: [paste data]. Write an executive commentary of maximum 150 words. Highlight 2 positive points and 1 area of attention. Direct tone, no jargon, board pack style."
-  },
-  budget_forecast_narrative: {
-    fr: "Agis comme contrôleur de gestion senior. Voici notre budget [année] et nos hypothèses clés : [coller]. Rédige le narratif de présentation du budget en 3 parties : (1) contexte macro et hypothèses, (2) axes stratégiques traduits en objectifs financiers, (3) principaux risques et opportunités.",
-    en: "Act as a senior controller. Here is our [year] budget and key assumptions: [paste]. Write the budget presentation narrative in 3 parts: (1) macro context and assumptions, (2) strategic priorities translated into financial targets, (3) main risks and opportunities."
-  },
-  due_diligence_structuring: {
-    fr: "Tu es un directeur M&A. Construis une check-list de due diligence financière pour l'acquisition de [nom cible], société [secteur] de taille [taille]. Délai DD : [X] semaines. Structure la check-list en 6 blocs (historique financier, qualité des earnings, bilan/dette, BFR, fiscalité, red flags sectoriels). Priorité haute/moyenne/basse pour chaque item.",
-    en: "You are an M&A Director. Build a financial due diligence checklist for the acquisition of [target name], a [sector] company of [size]. DD timeline: [X] weeks. Structure the checklist in 6 blocks (financial history, earnings quality, balance sheet/debt, working capital, tax, sector red flags). High/medium/low priority for each item."
-  },
-  investment_memo: {
-    fr: "Tu es un conseiller en corporate finance. Rédige une thèse d'investissement pour [entité] dans [secteur]. Contexte : [coller]. Structure : (1) thèse en 1 phrase, (2) 3 piliers de l'equity story chiffrés, (3) réponse au 'pourquoi maintenant', (4) différenciation concurrents, (5) 3 objections principales + réponses.",
-    en: "You are a corporate finance advisor. Write an investment thesis for [entity] in [sector]. Context: [paste]. Structure: (1) thesis in 1 sentence, (2) 3 quantified equity story pillars, (3) answer to 'why now', (4) competitor differentiation, (5) 3 main objections + responses."
-  },
-}
-
-// Prompt générique de fallback
-export const GENERIC_PROMPTS = {
-  fr: "Agis comme expert finance senior. Voici ma tâche : [décrire la tâche]. Données disponibles : [coller]. Produis une analyse structurée avec les points clés, les insights actionnables et les recommandations. Format : synthèse exécutive + développement.",
-  en: "Act as a senior finance expert. Here is my task: [describe the task]. Available data: [paste]. Produce a structured analysis with key points, actionable insights and recommendations. Format: executive summary + development."
-}

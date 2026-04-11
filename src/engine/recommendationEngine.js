@@ -233,7 +233,7 @@ function isEligible(toolId, taskId, isSensitive) {
   if (!isSensitive) return true
   const dims = TASK_TOOL_AFFINITY[taskId]?.[toolId]
   if (!dims) return true
-  return dims.g >= 50
+  return dims.g >= 70
 }
 
 function getTaskLevel(score) {
@@ -290,6 +290,9 @@ export function computeRecommendation(answers) {
   if (dsiValidation === 'no') {
     adjustedScores.copilot = Math.max(0, adjustedScores.copilot - 8)
   }
+  if (budget === 0) {
+    adjustedScores.copilot = Math.max(0, adjustedScores.copilot - 20)
+  }
   if (budget < 30) {
     adjustedScores.claude  = Math.min(100, adjustedScores.claude  + 5)
     adjustedScores.chatgpt = Math.min(100, adjustedScores.chatgpt + 5)
@@ -304,7 +307,8 @@ export function computeRecommendation(answers) {
 
   // 5. Construire le détail des tâches pour les 2 premiers outils
   function buildTaskDetail(toolId) {
-    const tasks = selectedTasks.length > 0 ? selectedTasks : Object.keys(TASK_TOOL_AFFINITY).slice(0, 10)
+    if (selectedTasks.length === 0) return []
+    const tasks = selectedTasks
     return tasks.map(taskId => {
       const dims = TASK_TOOL_AFFINITY[taskId]?.[toolId]
       const score = dims ? computeScore(dims) : 50
