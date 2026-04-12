@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useLanguage } from './hooks/useLanguage.js'
+import { useIsMobile } from './hooks/useIsMobile.js'
 import { computeRecommendation } from './engine/recommendationEngine.js'
 import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
@@ -21,6 +22,7 @@ const SECTION_LABELS = {
 
 export default function App() {
   const { lang, toggleLang, t } = useLanguage()
+  const isMobile = useIsMobile()
   const [view, setView] = useState(VIEWS.HERO)
   const [activeSection, setActiveSection] = useState(0)
   const [answers, setAnswers] = useState({
@@ -126,7 +128,7 @@ export default function App() {
     </div>
   )
 
-  const sectionBody = { padding: '22px 28px', display: 'flex', flexDirection: 'column', gap: 22 }
+  const sectionBody = { padding: isMobile ? '16px' : '22px 28px', display: 'flex', flexDirection: 'column', gap: 22 }
 
   const labelStyle = {
     display: 'block', fontSize: 12, fontWeight: 600,
@@ -172,22 +174,24 @@ export default function App() {
           padding: '12px 24px'
         }}>
           <div style={{ maxWidth: 720, margin: '0 auto' }}>
-            {/* Labels des sections */}
-            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-              {SECTION_LABELS[lang].map((label, i) => (
-                <div key={i} style={{ flex: 1, textAlign: 'center' }}>
-                  <span style={{
-                    fontSize: 10,
-                    fontWeight: i === activeSection ? 700 : 400,
-                    color: i <= activeSection ? 'var(--text-primary)' : 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em'
-                  }}>
-                    {i + 1}. {label}
-                  </span>
-                </div>
-              ))}
-            </div>
+            {/* Labels des sections — masqués sur mobile */}
+            {!isMobile && (
+              <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                {SECTION_LABELS[lang].map((label, i) => (
+                  <div key={i} style={{ flex: 1, textAlign: 'center' }}>
+                    <span style={{
+                      fontSize: 10,
+                      fontWeight: i === activeSection ? 700 : 400,
+                      color: i <= activeSection ? 'var(--text-primary)' : 'var(--text-muted)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      {i + 1}. {label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
             {/* Barres de progression */}
             <div style={{ display: 'flex', gap: 6 }}>
               {[0, 1, 2, 3].map(i => (
@@ -208,7 +212,7 @@ export default function App() {
 
       {/* ── FORMULAIRE ───────────────────────────────────────── */}
       {view === VIEWS.FORM && (
-        <main style={{ maxWidth: 680, margin: '0 auto', padding: '40px 24px 100px' }}
+        <main style={{ maxWidth: 680, margin: '0 auto', padding: isMobile ? '20px 16px 100px' : '40px 24px 100px' }}
           className="animate-fadeInUp">
 
           <h2 style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 24, color: 'var(--text-primary)', marginBottom: 24 }}>
@@ -265,7 +269,7 @@ export default function App() {
               <div style={sectionBody}>
                 <div>
                   <label style={labelStyle}>{t.q4Label}</label>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 10 }}>
                     {t.q4Options.map(opt => {
                       const active = answers.ecosystem === opt.id
                       return (
@@ -433,8 +437,8 @@ export default function App() {
               </div>
             </div>
 
-            {/* CTA card */}
-            <div style={{
+            {/* CTA card — masquée sur mobile (sticky bottom btn prend le relais) */}
+            <div className="cta-inline" style={{
               background: 'var(--bg-card)', borderRadius: 16,
               border: '1px solid var(--border-green)', padding: '28px 28px 32px', textAlign: 'center'
             }}>

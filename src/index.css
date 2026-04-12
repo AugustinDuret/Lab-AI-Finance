@@ -125,3 +125,9 @@ body {
     margin-bottom: 24px;
   }
 }
+
+/* ── Mobile 375px ──────────────────────────────────────────────── */
+@media (max-width: 479px) {
+  /* CTA inline dans le formulaire masqué — le bouton sticky bottom le remplace */
+  .cta-inline { display: none !important; }
+}
