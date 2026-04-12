@@ -107,6 +107,23 @@ export const translations = {
     showAlternative: "Voir l'alternative",
     hideAlternative: "Masquer l'alternative",
 
+    // Loading
+    loadingTitle: "Analyse en cours...",
+    loadingSubtitle: "La matrice évalue votre contexte Finance",
+
+    // Formulaire inline
+    sectorOptional: "Secteur (optionnel)",
+    sectorSelect: "- Sélectionner (optionnel) -",
+    analysisNote: "L'analyse est générée en fonction de votre contexte exact.",
+
+    // Budget badges résultats
+    budgetFree: "🆓 Gratuit",
+    budgetPaid: "💳 Payant",
+
+    // ResultsCard
+    noTasksMsg: "💡 Sélectionnez des tâches dans le formulaire pour voir le mapping détaillé",
+    toolLearnMore: "En savoir plus",
+
     // Export PDF
     exportPdf: "Exporter en PDF",
     exportPdfLoading: "Génération...",
@@ -196,6 +213,23 @@ export const translations = {
     startTitle: "How to get started",
     showAlternative: "Show alternative",
     hideAlternative: "Hide alternative",
+    // Loading
+    loadingTitle: "Analysing...",
+    loadingSubtitle: "The matrix is evaluating your Finance context",
+
+    // Form inline
+    sectorOptional: "Sector (optional)",
+    sectorSelect: "- Select (optional) -",
+    analysisNote: "The analysis is generated based on your exact context.",
+
+    // Budget badges results
+    budgetFree: "🆓 Free plan",
+    budgetPaid: "💳 Paid plan",
+
+    // ResultsCard
+    noTasksMsg: "💡 Select tasks in the form to see the detailed task mapping",
+    toolLearnMore: "Learn more",
+
     exportPdf: "Export as PDF",
     exportPdfLoading: "Generating...",
     exportPdfError: "PDF export unavailable, please try again",

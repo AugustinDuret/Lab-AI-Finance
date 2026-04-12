@@ -367,6 +367,180 @@ INSTRUCTIONS:
 3. Rank projects by priority (ROI, strategy, risk)
 4. Sensitivity analysis \u00b120% on key assumptions
 5. Arbitration recommendation with justification`
+  },
+  {
+    id: 'monthly_close',
+    taskIds: ['monthly_close_checklist'],
+    labelFr: 'Check-list cloture mensuelle',
+    labelEn: 'Monthly Close Checklist',
+    promptFr: `Tu es un controleur de gestion senior expert en processus de cloture.
+Genere une check-list complete de cloture mensuelle pour [ENTITE] - [PERIODE].
+
+CONTEXTE :
+Equipe : [TAILLE_EQUIPE] | Systemes : [ERP] / [BI] | Delai de cloture actuel : [DELAI_ACTUEL] jours
+
+CHECK-LIST A GENERER :
+1. J-3 avant cloture : taches preparatoires (rapprochements, cut-off)
+2. J-1 : verifications prealatbles (intercos, provisions, courus)
+3. J0 : cloture comptable (saisies finales, lettrage, revue soldes)
+4. J+1 a J+3 : reporting (P&L flash, KPIs, validation management)
+5. J+5 : analyse et commentaires
+
+Pour chaque tache : responsable, duree estimee, outil utilise, dependances, risque si non fait`,
+    promptEn: `You are a senior management controller expert in month-end close processes.
+Generate a complete monthly close checklist for [ENTITE] - [PERIODE].
+
+CONTEXT:
+Team: [TAILLE_EQUIPE] | Systems: [ERP] / [BI] | Current close duration: [DELAI_ACTUEL] days
+
+CHECKLIST TO GENERATE:
+1. D-3 before close: preparatory tasks (reconciliations, cut-off)
+2. D-1: pre-close checks (intercos, provisions, accruals)
+3. D0: accounting close (final entries, clearing, balance review)
+4. D+1 to D+3: reporting (P&L flash, KPIs, management sign-off)
+5. D+5: analysis and commentary
+
+For each task: owner, estimated duration, tool used, dependencies, risk if not completed`
+  },
+  {
+    id: 'kpi_dashboard',
+    taskIds: ['kpi_dashboard_design'],
+    labelFr: 'Conception KPI Dashboard Finance',
+    labelEn: 'Finance KPI Dashboard Design',
+    promptFr: `Tu es un expert en dataviz et pilotage de la performance Finance.
+Conçois un KPI dashboard Finance pour [ENTITE] destine a [AUDIENCE].
+
+CONTEXTE :
+Secteur : [SECTEUR] | Frequence : [FREQUENCE] | Outil BI : [OUTIL_BI]
+Objectifs strategiques : [OBJECTIFS]
+
+LIVRABLES :
+1. Selection des 8-12 KPIs les plus pertinents (avec formule de calcul pour chacun)
+2. Structure du dashboard : en-tete executive (3-4 KPIs cles) + sections detaillees
+3. Pour chaque KPI : definition, frequence, source de donnees, seuils alerte (rouge/orange/vert)
+4. Hierarchy visuelle recommandee (quoi afficher en premier, logique de lecture)
+5. 3 indicateurs avances (leading indicators) a surveiller`,
+    promptEn: `You are an expert in data visualisation and Finance performance management.
+Design a Finance KPI dashboard for [ENTITE] aimed at [AUDIENCE].
+
+CONTEXT:
+Sector: [SECTEUR] | Frequency: [FREQUENCE] | BI tool: [OUTIL_BI]
+Strategic objectives: [OBJECTIFS]
+
+DELIVERABLES:
+1. Selection of 8-12 most relevant KPIs (with calculation formula for each)
+2. Dashboard structure: executive header (3-4 key KPIs) + detailed sections
+3. For each KPI: definition, frequency, data source, alert thresholds (red/amber/green)
+4. Recommended visual hierarchy (what to show first, reading logic)
+5. 3 leading indicators to monitor`
+  },
+  {
+    id: 'lbo_dcf',
+    taskIds: ['lbo_dcf_logic'],
+    labelFr: 'Modelisation LBO / DCF - logique',
+    labelEn: 'LBO / DCF Modelling Logic',
+    promptFr: `Tu es un directeur M&A avec 15 ans d'experience en private equity et banque d'affaires.
+Valide et critique la logique financiere d'un modele LBO/DCF pour [CIBLE].
+
+HYPOTHESES DU MODELE :
+Prix d'acquisition : [EV] | Dette/Equity : [LEVERAGE] | Taux : [TAUX_DETTE]
+Croissance CA : [CAGR_CA] | Marge EBITDA cible : [MARGE_EBITDA]
+Horizon de sortie : [HORIZON] ans | Multiple de sortie : [MULTIPLE_SORTIE]x
+
+INSTRUCTIONS :
+1. Critique les hypotheses (realisme sectoriel, coherence cycle economique)
+2. Calcule le TRI equity et le MOIC dans le scenario base
+3. Identifie les 3 hypotheses les plus sensibles (analyse de sensibilite croisee)
+4. Analyse la structure de dette (couverture interet, covenant headroom)
+5. Scenario de stress : que se passe-t-il si CA -15% et marge -200bp ?
+6. Points de due diligence a approfondir avant LOI`,
+    promptEn: `You are an M&A Director with 15 years of experience in private equity and investment banking.
+Validate and critique the financial logic of an LBO/DCF model for [CIBLE].
+
+MODEL ASSUMPTIONS:
+Acquisition price: [EV] | Debt/Equity: [LEVERAGE] | Rate: [TAUX_DETTE]
+Revenue growth: [CAGR_CA] | Target EBITDA margin: [MARGE_EBITDA]
+Exit horizon: [HORIZON] years | Exit multiple: [MULTIPLE_SORTIE]x
+
+INSTRUCTIONS:
+1. Critique the assumptions (sector realism, economic cycle consistency)
+2. Calculate equity IRR and MOIC in the base scenario
+3. Identify the 3 most sensitive assumptions (cross sensitivity analysis)
+4. Analyse the debt structure (interest coverage, covenant headroom)
+5. Stress scenario: what happens if revenue -15% and margin -200bp?
+6. Due diligence items to deepen before LOI`
+  },
+  {
+    id: 'sql_finance',
+    taskIds: ['sql_queries', 'data_analysis_upload'],
+    labelFr: 'Requetes SQL Finance - extraction et analyse',
+    labelEn: 'Finance SQL Queries - Extract and Analyse',
+    promptFr: `Tu es un expert en bases de donnees financieres et SQL.
+Redige les requetes SQL pour extraire et analyser les donnees financieres suivantes depuis [BASE_DE_DONNEES].
+
+SCHEMA DISPONIBLE :
+Tables : [TABLES_DISPONIBLES]
+Periode d'analyse : [PERIODE] | Granularite : [GRANULARITE]
+
+REQUETES A PRODUIRE :
+1. P&L par BU et par mois (CA, marge brute, EBITDA) avec comparatif N-1
+2. Top 10 clients par CA et evolution vs periode precedente
+3. Analyse des charges par nature et centre de cout (top 15)
+4. BFR : calcul DSO, DPO, DIO avec evolution mensuelle
+5. Alert requete : identifier les anomalies (ecarts > 20% vs budget, doublons, valeurs nulles)
+
+Pour chaque requete : commentaires explicatifs + index recommandes pour la performance`,
+    promptEn: `You are an expert in financial databases and SQL.
+Write SQL queries to extract and analyse the following financial data from [BASE_DE_DONNEES].
+
+AVAILABLE SCHEMA:
+Tables: [TABLES_DISPONIBLES]
+Analysis period: [PERIODE] | Granularity: [GRANULARITE]
+
+QUERIES TO PRODUCE:
+1. P&L by BU and month (revenue, gross margin, EBITDA) with YoY comparison
+2. Top 10 customers by revenue and evolution vs previous period
+3. Cost analysis by nature and cost centre (top 15)
+4. Working capital: DSO, DPO, DIO calculation with monthly trend
+5. Alert query: identify anomalies (variances > 20% vs budget, duplicates, null values)
+
+For each query: explanatory comments + recommended indexes for performance`
+  },
+  {
+    id: 'business_review',
+    taskIds: ['business_review_prep', 'pl_analysis_by_bu'],
+    labelFr: 'Business Review - preparation complete',
+    labelEn: 'Business Review - Full Preparation',
+    promptFr: `Tu es un business partner Finance preparant la Business Review mensuelle.
+Structure et prepare la Business Review de [ENTITE] pour la periode [PERIODE].
+
+PARTICIPANTS : [PARTICIPANTS] | Duree : [DUREE]
+DONNEES DISPONIBLES : [DONNEES_DISPONIBLES]
+
+STRUCTURE DE LA BUSINESS REVIEW :
+1. Synthese executive (1 slide) : KPIs cles, message principal, 1 decision a prendre
+2. Performance commerciale : revenus, volume, mix, pipeline et forecast
+3. Performance operationnelle : marges, couts, ecarts vs budget
+4. Analyse comparative : vs N-1, vs budget, vs benchmark sectoriel si disponible
+5. Points d'attention (max 3) : faits, causes, actions correctrices proposees
+6. Outlook : revision forecast, hypotheses, risques et opportunites
+
+Pour chaque section : chiffres cles a inclure, questions a anticiper, slide suggere`,
+    promptEn: `You are a Finance Business Partner preparing the monthly Business Review.
+Structure and prepare the Business Review for [ENTITE] for the period [PERIODE].
+
+PARTICIPANTS: [PARTICIPANTS] | Duration: [DUREE]
+AVAILABLE DATA: [DONNEES_DISPONIBLES]
+
+BUSINESS REVIEW STRUCTURE:
+1. Executive summary (1 slide): key KPIs, main message, 1 decision needed
+2. Commercial performance: revenue, volume, mix, pipeline and forecast
+3. Operational performance: margins, costs, variances vs budget
+4. Comparative analysis: vs prior year, vs budget, vs sector benchmark if available
+5. Watch items (max 3): facts, root causes, proposed corrective actions
+6. Outlook: forecast revision, assumptions, risks and opportunities
+
+For each section: key figures to include, questions to anticipate, suggested slide`
   }
 ]
 

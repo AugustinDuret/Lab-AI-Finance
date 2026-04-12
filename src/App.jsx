@@ -249,13 +249,13 @@ export default function App() {
                 {/* Secteur - optionnel, discret */}
                 <div style={{ opacity: 0.85 }}>
                   <label style={{ ...labelStyle, color: 'var(--text-muted)', fontWeight: 500 }}>
-                    {lang === 'fr' ? 'Secteur (optionnel)' : 'Sector (optional)'}
+                    {t.sectorOptional}
                   </label>
                   <select
                     style={{ ...selectStyle, color: 'var(--text-secondary)', fontSize: 13 }}
                     value={answers.sector}
                     onChange={e => updateAnswer('sector', e.target.value)}>
-                    <option value="">{lang === 'fr' ? '- Sélectionner (optionnel) -' : '- Select (optional) -'}</option>
+                    <option value="">{t.sectorSelect}</option>
                     {t.q3Options.map(o => <option key={o} value={o}>{o}</option>)}
                   </select>
                 </div>
@@ -443,9 +443,7 @@ export default function App() {
               border: '1px solid var(--border-green)', padding: '28px 28px 32px', textAlign: 'center'
             }}>
               <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 22, lineHeight: 1.5 }}>
-                {lang === 'fr'
-                  ? "L'analyse est générée en fonction de votre contexte exact."
-                  : "The analysis is generated based on your exact context."}
+                {t.analysisNote}
               </p>
               <button onClick={handleSubmit}
                 style={{
@@ -481,16 +479,14 @@ export default function App() {
             marginTop: 32,
             marginBottom: 8
           }}>
-            {lang === 'fr' ? 'Analyse en cours...' : 'Analysing...'}
+            {t.loadingTitle}
           </p>
           <p style={{
             color: 'var(--text-secondary)',
             fontSize: 13,
             lineHeight: 1.5
           }}>
-            {lang === 'fr'
-              ? 'La matrice évalue votre contexte Finance'
-              : 'The matrix is evaluating your Finance context'}
+            {t.loadingSubtitle}
           </p>
 
           {/* Indicateur de progression subtil */}
@@ -585,9 +581,7 @@ export default function App() {
                       borderRadius: 16, padding: '4px 12px', fontSize: 12,
                       color: 'var(--australe-gold)', fontWeight: 500
                     }}>
-                      {answers.budget === 'free'
-                        ? (lang === 'fr' ? '🆓 Gratuit' : '🆓 Free plan')
-                        : (lang === 'fr' ? '💳 Payant' : '💳 Paid plan')}
+                      {answers.budget === 'free' ? t.budgetFree : t.budgetPaid}
                     </span>
                   )}
                 </div>

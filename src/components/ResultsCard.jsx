@@ -257,9 +257,7 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
             border: '1px solid var(--border-green)', padding: '14px 18px',
             fontSize: 13, color: 'var(--text-muted)', fontStyle: 'italic'
           }}>
-            {lang === 'fr'
-              ? '💡 Sélectionnez des tâches dans le formulaire pour voir le mapping détaillé'
-              : '💡 Select tasks in the form to see the detailed task mapping'}
+            {t.noTasksMsg}
           </div>
         )}
         {result.taskDetails.length > 0 && (
@@ -491,7 +489,7 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
               onMouseEnter={e => e.currentTarget.style.opacity = '0.7'}
               onMouseLeave={e => e.currentTarget.style.opacity = '1'}
             >
-              {lang === 'fr' ? 'En savoir plus' : 'Learn more'} →
+              {t.toolLearnMore} →
             </a>
           </div>
         )}
