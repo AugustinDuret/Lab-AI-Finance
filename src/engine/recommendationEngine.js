@@ -245,12 +245,14 @@ function getTaskLevel(score) {
 // ─── MOTEUR PRINCIPAL ─────────────────────────────────────────
 
 export function computeRecommendation(answers) {
+  if (!answers) return null
+
   const {
-    ecosystem,       // 'microsoft365' | 'google' | 'mixed' | 'unknown'
-    dsiValidation,   // 'yes' | 'no' | 'unknown'
-    selectedTasks,   // string[] — IDs des tâches sélectionnées
-    budget,          // number (€/mois)
-    dataSensitivity, // 'low' | 'medium' | 'high'
+    ecosystem       = 'unknown',  // 'microsoft365' | 'google' | 'mixed' | 'unknown'
+    dsiValidation   = 'unknown',  // 'yes' | 'no' | 'unknown'
+    selectedTasks   = [],         // string[] — IDs des tâches sélectionnées
+    budget          = '',         // 'free' | 'paid' | ''
+    dataSensitivity = 'medium',   // 'low' | 'medium' | 'high'
   } = answers
 
   const isSensitive = dataSensitivity === 'high'

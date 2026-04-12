@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { jsPDF } from 'jspdf';
 
 export default function PdfExportButton({ t, recommendation, answers, lang }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleExport = () => {
+  const handleExport = async () => {
     setLoading(true);
     setError(false);
 
     try {
+      const { jsPDF } = await import('jspdf');
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const W = 210;
       const margin = 16;
@@ -343,7 +343,7 @@ export default function PdfExportButton({ t, recommendation, answers, lang }) {
       doc.save(`lab-ai-finance-${date}.pdf`);
 
     } catch (e) {
-      console.error('PDF error:', e);
+      if (import.meta.env.DEV) console.error('PDF error:', e);
       setError(true);
     }
 

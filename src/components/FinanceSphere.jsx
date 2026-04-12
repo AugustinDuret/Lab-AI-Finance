@@ -159,9 +159,21 @@ export default function FinanceSphere({ size = 200 }) {
       animId = requestAnimationFrame(draw);
     };
 
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animId);
+      } else {
+        animId = requestAnimationFrame(draw);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
     draw();
 
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      cancelAnimationFrame(animId);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, [size]);
 
   return (

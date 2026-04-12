@@ -71,11 +71,21 @@ export default function AnimatedBackground() {
       animationId = requestAnimationFrame(draw);
     };
 
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationId);
+      } else {
+        animationId = requestAnimationFrame(draw);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
     draw();
 
     return () => {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationId);
+      document.removeEventListener('visibilitychange', handleVisibility);
     };
   }, []);
 
