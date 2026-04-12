@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TOOLS } from '../data/tools.js'
+import { TOOLS, TOOL_ICONS, TOOL_URLS } from '../data/tools.js'
 import { TASKS_BY_ID } from '../data/tasks.js'
 import { getPromptsForTasks } from '../data/prompts.js'
 import ScoreBar from './ScoreBar.jsx'
@@ -97,7 +97,10 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
             }}>
               {isPrimary ? `✦ ${t.primaryTool}` : t.secondaryTool}
             </div>
-            <div style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 22, color: 'var(--text-primary)', lineHeight: 1.2 }}>
+            <div style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 22, color: 'var(--text-primary)', lineHeight: 1.2, display: 'flex', alignItems: 'center', gap: 8 }}>
+              {TOOL_ICONS[result.toolId] && (
+                <span style={{ fontSize: 20 }}>{TOOL_ICONS[result.toolId]}</span>
+              )}
               {lang === 'fr' ? tool.nameFr : tool.nameEn}
             </div>
             {showModuleNote && (
@@ -248,6 +251,17 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
         </div>
 
         {/* Mapping tâches */}
+        {result.taskDetails.length === 0 && (
+          <div style={{
+            background: 'var(--bg-secondary)', borderRadius: 10,
+            border: '1px solid var(--border-green)', padding: '14px 18px',
+            fontSize: 13, color: 'var(--text-muted)', fontStyle: 'italic'
+          }}>
+            {lang === 'fr'
+              ? '💡 Sélectionnez des tâches dans le formulaire pour voir le mapping détaillé'
+              : '💡 Select tasks in the form to see the detailed task mapping'}
+          </div>
+        )}
         {result.taskDetails.length > 0 && (
           <div>
             <div style={{
@@ -459,6 +473,28 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
             ))}
           </ol>
         </div>
+
+        {/* Lien externe vers l'outil */}
+        {TOOL_URLS[result.toolId] && (
+          <div style={{ borderTop: '1px solid var(--border-green)', paddingTop: 16 }}>
+            <a
+              href={TOOL_URLS[result.toolId]}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                fontSize: 13, fontWeight: 600,
+                color: 'var(--australe-green-light)',
+                textDecoration: 'none',
+                transition: 'opacity 150ms'
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = '0.7'}
+              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+            >
+              {lang === 'fr' ? 'En savoir plus' : 'Learn more'} →
+            </a>
+          </div>
+        )}
 
       </div>
       </div>

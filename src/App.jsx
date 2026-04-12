@@ -579,6 +579,17 @@ export default function App() {
                       {answers.selectedTasks.length} {lang === 'fr' ? 'tâche(s) sélectionnée(s)' : 'task(s) selected'}
                     </span>
                   )}
+                  {answers.budget && (
+                    <span style={{
+                      background: 'rgba(196,163,90,0.08)', border: '1px solid rgba(196,163,90,0.2)',
+                      borderRadius: 16, padding: '4px 12px', fontSize: 12,
+                      color: 'var(--australe-gold)', fontWeight: 500
+                    }}>
+                      {answers.budget === 'free'
+                        ? (lang === 'fr' ? '🆓 Gratuit' : '🆓 Free plan')
+                        : (lang === 'fr' ? '💳 Payant' : '💳 Paid plan')}
+                    </span>
+                  )}
                 </div>
               )}
             </div>

@@ -1,3 +1,19 @@
+export const TOOL_ICONS = {
+  copilot: '🪟',
+  claude:  '🌀',
+  chatgpt: '💬',
+  gemini:  '✨',
+  mistral: '🌬️',
+}
+
+export const TOOL_URLS = {
+  copilot: 'https://copilot.microsoft.com',
+  claude:  'https://claude.ai',
+  chatgpt: 'https://chatgpt.com',
+  gemini:  'https://gemini.google.com',
+  mistral: 'https://chat.mistral.ai',
+}
+
 export const TOOLS = {
   copilot: {
     id: "copilot",
