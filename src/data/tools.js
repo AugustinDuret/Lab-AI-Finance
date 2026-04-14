@@ -29,19 +29,25 @@ export const TOOLS = {
       en: "Priority: Copilot in Excel for your data and reporting tasks"
     },
     whyFr: [
-      "Natif dans Excel et PowerPoint - aucune manipulation supplémentaire pour vos reportings",
-      "Intégré à Teams et Outlook - centralise les workflows sans changer vos habitudes de travail",
-      "Validé IT dans la plupart des environnements Microsoft 365 - déploiement sans friction DSI"
+      'Integre nativement dans Excel, PowerPoint et Teams - zero friction workflow',
+      'Deploiement governe par la DSI avec securite Microsoft enterprise',
+      'Ideal pour les equipes deja sur Microsoft 365 sans couts additionnels'
     ],
     whyEn: [
-      "Native in Excel and PowerPoint - no extra steps for your reporting workflows",
-      "Integrated with Teams and Outlook - centralises workflows without changing your work habits",
-      "IT-approved in most Microsoft 365 environments - frictionless deployment with IT"
+      'Natively integrated in Excel, PowerPoint and Teams - zero workflow friction',
+      'IT-governed deployment with Microsoft enterprise security',
+      'Ideal for teams already on Microsoft 365 at no extra cost'
     ],
-    vigilanceFr: ["Fonctionnalités avancées en anglais en priorité", "Requiert licence Microsoft 365 E3/E5 + add-on Copilot (~30$/user/mois)", "Raisonnement limité sur les analyses complexes multi-étapes"],
-    vigilanceEn: ["Advanced features prioritised in English", "Requires Microsoft 365 E3/E5 + Copilot add-on (~$30/user/month)", "Limited reasoning on complex multi-step analyses"],
-    budgetFr: "30 USD/user/mois (add-on Copilot M365). Licence M365 requise.",
-    budgetEn: "$30/user/month (Copilot M365 add-on). M365 licence required.",
+    vigilanceFr: [
+      'Necessite une licence Microsoft 365 E3/E5 - environ 36 EUR/user/mois',
+      'Raisonnement analytique moins profond que Claude sur les taches complexes'
+    ],
+    vigilanceEn: [
+      'Requires Microsoft 365 E3/E5 licence - approx EUR 36/user/month',
+      'Less deep analytical reasoning than Claude on complex tasks'
+    ],
+    budgetFr: 'Inclus dans Microsoft 365 E3 ou E5. Version standalone Copilot Pro : 22 EUR/mois',
+    budgetEn: 'Included in Microsoft 365 E3 or E5. Copilot Pro standalone: EUR 22/month',
     rgpd: true,
     startStepsFr: ["Vérifier votre licence Microsoft 365 (E3 ou E5)", "Activer Copilot pour Microsoft 365 auprès de votre IT/DSI", "Commencer par Excel : tapez '/' pour activer Copilot dans une feuille"],
     startStepsEn: ["Check your Microsoft 365 licence (E3 or E5)", "Activate Copilot for Microsoft 365 with your IT/IS department", "Start with Excel: type '/' to activate Copilot in a sheet"],
@@ -56,19 +62,25 @@ export const TOOLS = {
     descEn: "The most performant LLM for complex analysis tasks, executive writing and financial reasoning.",
     moduleNote: null,
     whyFr: [
-      "Raisonnement multi-étapes supérieur pour les analyses de variance, DCF et due diligence",
-      "Rédaction executive de qualité native en français - board packs et narratifs sans retraitement",
-      "Fenêtre de contexte de 200 000 tokens - idéal pour analyser des documents financiers longs"
+      'Meilleur raisonnement analytique du marche - ideal pour variance, narratifs, M&A',
+      'Contexte 200k tokens - analyse de documents longs sans perte de coherence',
+      'Qualite redactionnelle executive en francais native'
     ],
     whyEn: [
-      "Superior multi-step reasoning for variance analysis, DCF modelling, and due diligence",
-      "Native executive-quality writing in English - board packs and narratives with no rework",
-      "200,000 token context window - ideal for analysing long financial documents"
+      'Best analytical reasoning on the market - ideal for variance, narratives, M&A',
+      '200k token context - long document analysis without coherence loss',
+      'Native executive writing quality in French'
     ],
-    vigilanceFr: ["Données transitent vers les serveurs Anthropic (plan standard)", "Pas d'intégration native Excel/PPT - copier-coller nécessaire", "Claude Max (100$/mois) recommandé pour usage intensif"],
-    vigilanceEn: ["Data transits to Anthropic servers (standard plan)", "No native Excel/PPT integration - copy-paste required", "Claude Max ($100/month) recommended for intensive use"],
-    budgetFr: "Gratuit (limite) - Pro : 20 USD/mois - Max : 100 USD/mois",
-    budgetEn: "Free (limited) - Pro: $20/month - Max: $100/month",
+    vigilanceFr: [
+      'Pas d integration native dans Excel ou PowerPoint - copier-coller necessaire',
+      'Necessite une validation DSI selon la politique de donnees de l entreprise'
+    ],
+    vigilanceEn: [
+      'No native Excel or PowerPoint integration - copy-paste required',
+      'Requires IT validation depending on company data policy'
+    ],
+    budgetFr: 'Claude Pro : 20 EUR/mois. Claude Max : 100 EUR/mois',
+    budgetEn: 'Claude Pro: EUR 20/month. Claude Max: EUR 100/month',
     rgpd: false,
     startStepsFr: ["Créer un compte sur claude.ai", "Choisir le plan adapté (Pro recommandé pour usage professionnel)", "Tester avec un prompt Finance depuis la promptothèque Australe"],
     startStepsEn: ["Create an account on claude.ai", "Choose the right plan (Pro recommended for professional use)", "Test with a Finance prompt from the Australe prompt library"],
@@ -83,19 +95,25 @@ export const TOOLS = {
     descEn: "The best-known LLM, excellent for sector benchmarks and market analyses thanks to web browsing.",
     moduleNote: null,
     whyFr: [
-      "Web browsing en temps réel - benchmarks sectoriels et données de marché à jour",
-      "Outil le plus connu des équipes Finance - courbe d'adoption minimale",
-      "Plans Team et Enterprise validés IT dans de nombreuses entreprises"
+      'Polyvalent et accessible - bon generiste pour les taches Finance courantes',
+      'Browsing web integre pour benchmark et donnees de marche recentes',
+      'Ecosystem de plugins etendu pour des usages specifiques'
     ],
     whyEn: [
-      "Real-time web browsing - up-to-date sector benchmarks and market data",
-      "Most familiar tool for finance teams - minimal adoption curve",
-      "Team and Enterprise plans IT-approved in many organisations"
+      'Versatile and accessible - solid generalist for common Finance tasks',
+      'Built-in web browsing for benchmarking and recent market data',
+      'Extensive plugin ecosystem for specific use cases'
     ],
-    vigilanceFr: ["Données transitent vers les serveurs OpenAI", "Qualité variable selon les versions - GPT-4o recommandé", "Erreurs numériques documentées sur les calculs complexes"],
-    vigilanceEn: ["Data transits to OpenAI servers", "Variable quality depending on version - GPT-4o recommended", "Documented numerical errors on complex calculations"],
-    budgetFr: "Gratuit - Plus : 20 USD/mois - Team : 30 USD/user/mois",
-    budgetEn: "Free - Plus: $20/month - Team: $30/user/month",
+    vigilanceFr: [
+      'Raisonnement analytique profond inferieur a Claude sur les taches complexes',
+      'Confidentialite des donnees a verifier selon le plan utilise'
+    ],
+    vigilanceEn: [
+      'Deep analytical reasoning below Claude for complex tasks',
+      'Data confidentiality to verify depending on plan used'
+    ],
+    budgetFr: 'ChatGPT Plus : 20 EUR/mois. ChatGPT Pro : 200 EUR/mois',
+    budgetEn: 'ChatGPT Plus: EUR 20/month. ChatGPT Pro: EUR 200/month',
     rgpd: false,
     startStepsFr: ["Créer un compte sur chatgpt.com", "Activer ChatGPT Plus pour accéder à GPT-4o et le web browsing", "Utiliser le mode 'Recherche' pour les benchmarks sectoriels"],
     startStepsEn: ["Create an account at chatgpt.com", "Activate ChatGPT Plus to access GPT-4o and web browsing", "Use 'Search' mode for sector benchmarks"],
@@ -114,19 +132,25 @@ export const TOOLS = {
       en: "Priority: Gemini in Sheets for your data and automation tasks"
     },
     whyFr: [
-      "Natif dans Google Sheets et Docs - parfaitement intégré si votre équipe est sur Google Workspace",
-      "Gemini in Sheets permet l'automatisation sans quitter l'environnement de travail habituel",
-      "Inclus dans Google Workspace Business Standard - pas de coût additionnel"
+      'Integration native dans Google Sheets, Docs et Gmail - ideal ecosysteme Google',
+      'Acces aux donnees Google Workspace en temps reel',
+      'Bon rapport qualite-prix pour les equipes deja sur Google'
     ],
     whyEn: [
-      "Native in Google Sheets and Docs - seamlessly integrated if your team uses Google Workspace",
-      "Gemini in Sheets enables automation without leaving your usual work environment",
-      "Included in Google Workspace Business Standard - no additional cost"
+      'Native integration in Google Sheets, Docs and Gmail - ideal for Google ecosystem',
+      'Real-time access to Google Workspace data',
+      'Good value for teams already on Google'
     ],
-    vigilanceFr: ["Recommandé uniquement si écosystème Google Workspace", "Moins performant que Claude ou ChatGPT sur le raisonnement complexe", "Fonctionnalités Workspace AI nécessitent Business Standard ou plus"],
-    vigilanceEn: ["Recommended only if Google Workspace ecosystem", "Less performant than Claude or ChatGPT on complex reasoning", "Workspace AI features require Business Standard or above"],
-    budgetFr: "Gemini Advanced : 22 EUR/mois - Inclus dans Google Workspace Business Standard+",
-    budgetEn: "Gemini Advanced: GBP 22/month - Included in Google Workspace Business Standard+",
+    vigilanceFr: [
+      'Moins performant que Claude sur les taches analytiques Finance complexes',
+      'Hebergement hors UE par defaut - verifier conformite RGPD'
+    ],
+    vigilanceEn: [
+      'Less performant than Claude on complex Finance analytical tasks',
+      'Non-EU hosting by default - verify GDPR compliance'
+    ],
+    budgetFr: 'Gemini Advanced : 22 EUR/user/mois via Google One AI Premium',
+    budgetEn: 'Gemini Advanced: EUR 22/user/month via Google One AI Premium',
     rgpd: true,
     startStepsFr: ["Vérifier votre plan Google Workspace (Business Standard minimum)", "Activer Gemini dans vos paramètres Google Workspace", "Tester directement dans Google Sheets avec '@Gemini'"],
     startStepsEn: ["Check your Google Workspace plan (Business Standard minimum)", "Enable Gemini in your Google Workspace settings", "Test directly in Google Sheets with '@Gemini'"],
@@ -141,19 +165,25 @@ export const TOOLS = {
     descEn: "The only sovereign European LLM. 100% France hosting - the only option for highly sensitive data subject to strict GDPR.",
     moduleNote: null,
     whyFr: [
-      "Hébergement 100% France - seule option validée pour les données financières réglementées",
-      "Conformité RGPD garantie - aucun transfert de données hors Union Européenne",
-      "Souveraineté numérique européenne - argument décisif pour les DSI et DPO des grandes entreprises"
+      'Hebergement 100% France et Union Europeenne - conformite RGPD maximale',
+      'Option souveraine pour les donnees tres sensibles (M&A, audit, compliance)',
+      'Modeles open source deployables sur infrastructure privee si necessaire'
     ],
     whyEn: [
-      "100% French hosting - the only validated option for regulated financial data",
-      "Full GDPR compliance guaranteed - no data transfer outside the European Union",
-      "European digital sovereignty - a decisive argument for enterprise IT and data protection teams"
+      '100% France and EU hosting - maximum GDPR compliance',
+      'Sovereign option for highly sensitive data (M&A, audit, compliance)',
+      'Open source models deployable on private infrastructure if needed'
     ],
-    vigilanceFr: ["Moins performant que Claude/ChatGPT sur les tâches analytiques complexes", "Interface moins mature - pensé pour usage API en priorité", "Coût API à estimer selon les volumes d'usage"],
-    vigilanceEn: ["Less performant than Claude/ChatGPT on complex analytical tasks", "Less mature interface - primarily designed for API use", "API cost to estimate based on usage volumes"],
-    budgetFr: "Le Chat : gratuit - Pro : 14,99 EUR/mois - Enterprise : sur devis",
-    budgetEn: "Le Chat: free - Pro: GBP 14.99/month - Enterprise: on request",
+    vigilanceFr: [
+      'Qualite analytique inferieure a Claude et ChatGPT sur les taches FP&A complexes',
+      'Ecosystem d integration moins developpe que les solutions US'
+    ],
+    vigilanceEn: [
+      'Analytical quality below Claude and ChatGPT for complex FP&A tasks',
+      'Less developed integration ecosystem than US solutions'
+    ],
+    budgetFr: 'Le Chat Pro : 15 EUR/mois. API Mistral : tarif variable selon usage',
+    budgetEn: 'Le Chat Pro: EUR 15/month. Mistral API: variable pricing based on usage',
     rgpd: true,
     startStepsFr: ["Créer un compte sur chat.mistral.ai", "Pour usage enterprise/données sensibles : contacter Mistral pour un contrat DPA", "Tester Le Chat Pro pour les tâches documentaires et conformité"],
     startStepsEn: ["Create an account at chat.mistral.ai", "For enterprise/sensitive data use: contact Mistral for a DPA agreement", "Test Le Chat Pro for document and compliance tasks"],
