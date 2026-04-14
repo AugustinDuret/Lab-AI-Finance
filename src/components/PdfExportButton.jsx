@@ -181,19 +181,19 @@ export default function PdfExportButton({ t, recommendation, answers, lang }) {
       // BLOC OUTIL RECOMMANDÉ
       // ═══════════════════════════════════════════════════════════════
       if (primary) {
-        const toolId   = primary.toolId;
-        const toolData = TOOLS[toolId] ?? {};
+        const toolId   = recommendation?.primary?.toolId;
+        const toolData = TOOLS?.[toolId];
         const toolName = TOOL_NAMES[toolId] ?? toolId;
 
         // Données depuis TOOLS — PAS depuis le moteur
-        const whyList    = (lang === 'fr' ? toolData.whyFr       : toolData.whyEn)       ?? [];
-        const vigilList  = (lang === 'fr' ? toolData.vigilanceFr : toolData.vigilanceEn) ?? [];
-        const budgetText = (lang === 'fr' ? toolData.budgetFr    : toolData.budgetEn)    ?? '';
+        const reasons   = (lang === 'fr' ? toolData?.whyFr       : toolData?.whyEn)       || [];
+        const vigilance = (lang === 'fr' ? toolData?.vigilanceFr : toolData?.vigilanceEn) || [];
+        const budget    = (lang === 'fr' ? toolData?.budgetFr    : toolData?.budgetEn)    || '';
 
         console.log('[PDF] toolId:', toolId,
-          '| whyList.length:', whyList.length,
-          '| vigilList.length:', vigilList.length,
-          '| budget:', budgetText);
+          '| reasons.length:', reasons.length,
+          '| vigilance.length:', vigilance.length,
+          '| budget:', budget);
 
         // Prompts depuis la promptothèque
         const taskIds = (primary.taskDetails ?? []).map(td => td.taskId);
@@ -233,61 +233,53 @@ export default function PdfExportButton({ t, recommendation, answers, lang }) {
         y += 8;
 
         // ── Pourquoi cet outil ────────────────────────────────────────
-        if (whyList.length > 0) {
+        if (reasons.length > 0) {
+          checkPage(reasons.length * 10 + 20);
           y += addText(
             lang === 'fr' ? 'Pourquoi cet outil pour votre equipe' : 'Why this tool for your team',
             M, y, { size: 9, bold: true, color: MID_GRAY }
-          ) + 6;
-
-          whyList.forEach(reason => {
-            checkPage(14);
-            // Puce verte ASCII puis texte
-            doc.setFontSize(9);
+          ) + 5;
+          reasons.forEach(reason => {
+            checkPage(12);
+            doc.setFontSize(8);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(GREEN[0], GREEN[1], GREEN[2]);
-            doc.text('v', M + 1, y);
-            const h = addText(sanitize(reason), M + 6, y, {
-              size: 8, color: TEXT_DARK, maxWidth: W - M * 2 - 8
-            });
-            y += Math.max(h, 4) + 5;
+            doc.text('>', M + 2, y);
+            const rh = addText(reason, M + 7, y,
+              { size: 8, color: TEXT_DARK, maxWidth: W - M * 2 - 10 });
+            y += Math.max(rh + 4, 6);
           });
-          y += 2;
+          y += 4;
         }
 
         // ── Points de vigilance ───────────────────────────────────────
-        if (vigilList.length > 0) {
-          checkPage(20);
+        if (vigilance.length > 0) {
+          checkPage(vigilance.length * 10 + 20);
           y += addText(
             lang === 'fr' ? 'Points de vigilance' : 'Watch out for',
             M, y, { size: 9, bold: true, color: MID_GRAY }
-          ) + 6;
-
-          vigilList.forEach(v => {
-            checkPage(14);
-            doc.setFontSize(9);
+          ) + 5;
+          vigilance.forEach(point => {
+            checkPage(12);
+            doc.setFontSize(8);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
-            doc.text('!', M + 1, y);
-            const h = addText(sanitize(v), M + 6, y, {
-              size: 8, color: TEXT_DARK, maxWidth: W - M * 2 - 8
-            });
-            y += Math.max(h, 4) + 5;
+            doc.text('!', M + 2, y);
+            const vh = addText(point, M + 7, y,
+              { size: 8, color: TEXT_DARK, maxWidth: W - M * 2 - 10 });
+            y += Math.max(vh + 4, 6);
           });
-          y += 2;
+          y += 4;
         }
 
         // ── Budget / tarifs ───────────────────────────────────────────
-        if (budgetText) {
-          checkPage(18);
+        if (budget) {
+          checkPage(16);
           y += addText(
             lang === 'fr' ? 'Acces et tarifs' : 'Access and pricing',
             M, y, { size: 9, bold: true, color: MID_GRAY }
           ) + 4;
-          doc.setFillColor(LIGHT_BG[0], LIGHT_BG[1], LIGHT_BG[2]);
-          doc.roundedRect(M, y, W - M * 2, 10, 1, 1, 'F');
-          y += addText(sanitize(budgetText), M + 3, y + 6, {
-            size: 8.5, color: TEXT_DARK, maxWidth: W - M * 2 - 6
-          }) + 12;
+          y += addText(budget, M, y, { size: 9, color: TEXT_DARK }) + 8;
         }
 
         // ── Tâches sélectionnées ──────────────────────────────────────

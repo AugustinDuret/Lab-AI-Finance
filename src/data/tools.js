@@ -46,8 +46,8 @@ export const TOOLS = {
       'Requires Microsoft 365 E3/E5 licence - approx EUR 36/user/month',
       'Less deep analytical reasoning than Claude on complex tasks'
     ],
-    budgetFr: 'Inclus dans Microsoft 365 E3 ou E5. Version standalone Copilot Pro : 22 EUR/mois',
-    budgetEn: 'Included in Microsoft 365 E3 or E5. Copilot Pro standalone: EUR 22/month',
+    budgetFr: 'Inclus dans Microsoft 365 E3 ou E5 - Copilot Pro standalone : 22 EUR/mois',
+    budgetEn: 'Included in Microsoft 365 E3 or E5 - Copilot Pro standalone: EUR 22/month',
     rgpd: true,
     startStepsFr: ["Vérifier votre licence Microsoft 365 (E3 ou E5)", "Activer Copilot pour Microsoft 365 auprès de votre IT/DSI", "Commencer par Excel : tapez '/' pour activer Copilot dans une feuille"],
     startStepsEn: ["Check your Microsoft 365 licence (E3 or E5)", "Activate Copilot for Microsoft 365 with your IT/IS department", "Start with Excel: type '/' to activate Copilot in a sheet"],
@@ -79,8 +79,8 @@ export const TOOLS = {
       'No native Excel or PowerPoint integration - copy-paste required',
       'Requires IT validation depending on company data policy'
     ],
-    budgetFr: 'Claude Pro : 20 EUR/mois. Claude Max : 100 EUR/mois',
-    budgetEn: 'Claude Pro: EUR 20/month. Claude Max: EUR 100/month',
+    budgetFr: 'Claude Pro : 20 EUR/mois - Claude Max : 100 EUR/mois',
+    budgetEn: 'Claude Pro: EUR 20/month - Claude Max: EUR 100/month',
     rgpd: false,
     startStepsFr: ["Créer un compte sur claude.ai", "Choisir le plan adapté (Pro recommandé pour usage professionnel)", "Tester avec un prompt Finance depuis la promptothèque Australe"],
     startStepsEn: ["Create an account on claude.ai", "Choose the right plan (Pro recommended for professional use)", "Test with a Finance prompt from the Australe prompt library"],
@@ -112,8 +112,8 @@ export const TOOLS = {
       'Deep analytical reasoning below Claude for complex tasks',
       'Data confidentiality to verify depending on plan used'
     ],
-    budgetFr: 'ChatGPT Plus : 20 EUR/mois. ChatGPT Pro : 200 EUR/mois',
-    budgetEn: 'ChatGPT Plus: EUR 20/month. ChatGPT Pro: EUR 200/month',
+    budgetFr: 'ChatGPT Plus : 20 EUR/mois - ChatGPT Pro : 200 EUR/mois',
+    budgetEn: 'ChatGPT Plus: EUR 20/month - ChatGPT Pro: EUR 200/month',
     rgpd: false,
     startStepsFr: ["Créer un compte sur chatgpt.com", "Activer ChatGPT Plus pour accéder à GPT-4o et le web browsing", "Utiliser le mode 'Recherche' pour les benchmarks sectoriels"],
     startStepsEn: ["Create an account at chatgpt.com", "Activate ChatGPT Plus to access GPT-4o and web browsing", "Use 'Search' mode for sector benchmarks"],
@@ -182,8 +182,8 @@ export const TOOLS = {
       'Analytical quality below Claude and ChatGPT for complex FP&A tasks',
       'Less developed integration ecosystem than US solutions'
     ],
-    budgetFr: 'Le Chat Pro : 15 EUR/mois. API Mistral : tarif variable selon usage',
-    budgetEn: 'Le Chat Pro: EUR 15/month. Mistral API: variable pricing based on usage',
+    budgetFr: 'Le Chat Pro : 15 EUR/mois - API Mistral : tarif variable selon usage',
+    budgetEn: 'Le Chat Pro: EUR 15/month - Mistral API: variable pricing',
     rgpd: true,
     startStepsFr: ["Créer un compte sur chat.mistral.ai", "Pour usage enterprise/données sensibles : contacter Mistral pour un contrat DPA", "Tester Le Chat Pro pour les tâches documentaires et conformité"],
     startStepsEn: ["Create an account at chat.mistral.ai", "For enterprise/sensitive data use: contact Mistral for a DPA agreement", "Test Le Chat Pro for document and compliance tasks"],
