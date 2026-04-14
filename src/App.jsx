@@ -6,7 +6,6 @@ import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
 import TaskSelector from './components/TaskSelector.jsx'
 import ResultsCard from './components/ResultsCard.jsx'
-import PdfExportButton from './components/PdfExportButton.jsx'
 import Footer from './components/Footer.jsx'
 import AnimatedBackground from './components/AnimatedBackground.jsx'
 import FinanceSphere from './components/FinanceSphere.jsx'
@@ -533,7 +532,6 @@ export default function App() {
                 <h2 style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 24, color: 'var(--text-primary)' }}>
                   {t.resultsTitle}
                 </h2>
-                <PdfExportButton t={t} recommendation={recommendation} answers={answers} lang={lang} />
               </div>
 
               {/* Mini-résumé profil */}
