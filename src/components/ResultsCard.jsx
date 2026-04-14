@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TOOLS, TOOL_ICONS, TOOL_URLS } from '../data/tools.js'
+import { TOOLS, TOOL_URLS } from '../data/tools.js'
 import { TASKS_BY_ID } from '../data/tasks.js'
 import { getPromptsForTasks } from '../data/prompts.js'
 import ScoreBar from './ScoreBar.jsx'
@@ -97,10 +97,7 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
             }}>
               {isPrimary ? `✦ ${t.primaryTool}` : t.secondaryTool}
             </div>
-            <div style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 22, color: 'var(--text-primary)', lineHeight: 1.2, display: 'flex', alignItems: 'center', gap: 8 }}>
-              {TOOL_ICONS[result.toolId] && (
-                <span style={{ fontSize: 20 }}>{TOOL_ICONS[result.toolId]}</span>
-              )}
+            <div style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 22, color: 'var(--text-primary)', lineHeight: 1.2 }}>
               {lang === 'fr' ? tool.nameFr : tool.nameEn}
             </div>
             {showModuleNote && (
