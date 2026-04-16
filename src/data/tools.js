@@ -29,9 +29,9 @@ export const TOOLS = {
       en: "Priority: Copilot in Excel for your data and reporting tasks"
     },
     whyFr: [
-      'Integre nativement dans Excel, PowerPoint et Teams - zero friction workflow',
-      'Deploiement governe par la DSI avec securite Microsoft enterprise',
-      'Ideal pour les equipes deja sur Microsoft 365 sans couts additionnels'
+      'Intégré nativement dans Excel, PowerPoint et Teams - zéro friction workflow',
+      'Déploiement gouverné par la DSI avec sécurité Microsoft enterprise',
+      'Idéal pour les équipes déjà sur Microsoft 365 sans coûts additionnels'
     ],
     whyEn: [
       'Natively integrated in Excel, PowerPoint and Teams - zero workflow friction',
@@ -39,8 +39,8 @@ export const TOOLS = {
       'Ideal for teams already on Microsoft 365 at no extra cost'
     ],
     vigilanceFr: [
-      'Necessite une licence Copilot for Microsoft 365 en complement de M365 (non inclus dans E3/E5)',
-      'Raisonnement analytique moins profond que Claude sur les taches complexes'
+      'Nécessite une licence Copilot for Microsoft 365 en complément de M365 (non inclus dans E3/E5)',
+      'Raisonnement analytique moins profond que Claude sur les tâches complexes'
     ],
     vigilanceEn: [
       'Requires a separate Copilot for Microsoft 365 licence on top of M365 (not included in E3/E5)',
@@ -62,10 +62,10 @@ export const TOOLS = {
     descEn: "The most performant LLM for complex analysis tasks, executive writing and financial reasoning.",
     moduleNote: null,
     whyFr: [
-      'Meilleur raisonnement analytique du marche - ideal pour variance, narratifs, M&A',
-      'Contexte 200k tokens - analyse de documents longs sans perte de coherence',
-      'Qualite redactionnelle executive en francais native',
-      'Add-ins Excel et PowerPoint disponibles (beta) + outil de generation de slides depuis Excel'
+      'Meilleur raisonnement analytique du marché - idéal pour variance, narratifs, M&A',
+      'Contexte 200k tokens - analyse de documents longs sans perte de cohérence',
+      'Qualité rédactionnelle executive en français natif',
+      'Add-ins Excel et PowerPoint disponibles (bêta) + outil de génération de slides depuis Excel'
     ],
     whyEn: [
       'Best analytical reasoning on the market - ideal for variance, narratives, M&A',
@@ -74,8 +74,8 @@ export const TOOLS = {
       'Excel and PowerPoint add-ins available (beta) + slide generation tool from Excel'
     ],
     vigilanceFr: [
-      'Add-ins Office en beta - integration moins fluide que Copilot natif dans Microsoft 365',
-      'Necessite une validation DSI selon la politique de donnees de l entreprise'
+      "Add-ins Office en bêta - intégration moins fluide que Copilot natif dans Microsoft 365",
+      "Nécessite une validation DSI selon la politique de données de l'entreprise"
     ],
     vigilanceEn: [
       'Office add-ins in beta - less seamless than native Copilot integration in Microsoft 365',
@@ -97,9 +97,9 @@ export const TOOLS = {
     descEn: "The best-known LLM, excellent for sector benchmarks and market analyses thanks to web browsing.",
     moduleNote: null,
     whyFr: [
-      'Polyvalent et accessible - bon generiste pour les taches Finance courantes',
-      'Browsing web integre pour benchmark et donnees de marche recentes',
-      'Ecosystem de plugins etendu pour des usages specifiques'
+      'Polyvalent et accessible - bon généraliste pour les tâches Finance courantes',
+      'Browsing web intégré pour benchmark et données de marché récentes',
+      'Écosystème de plugins étendu pour des usages spécifiques'
     ],
     whyEn: [
       'Versatile and accessible - solid generalist for common Finance tasks',
@@ -107,8 +107,8 @@ export const TOOLS = {
       'Extensive plugin ecosystem for specific use cases'
     ],
     vigilanceFr: [
-      'Raisonnement analytique profond inferieur a Claude sur les taches complexes',
-      'Confidentialite des donnees a verifier selon le plan utilise'
+      'Raisonnement analytique profond inférieur à Claude sur les tâches complexes',
+      'Confidentialité des données à vérifier selon le plan utilisé'
     ],
     vigilanceEn: [
       'Deep analytical reasoning below Claude for complex tasks',
@@ -134,9 +134,9 @@ export const TOOLS = {
       en: "Priority: Gemini in Sheets for your data and automation tasks"
     },
     whyFr: [
-      'Integration native dans Google Sheets, Docs et Gmail - ideal ecosysteme Google',
-      'Acces aux donnees Google Workspace en temps reel',
-      'Bon rapport qualite-prix pour les equipes deja sur Google'
+      'Intégration native dans Google Sheets, Docs et Gmail - idéal écosystème Google',
+      'Accès aux données Google Workspace en temps réel',
+      'Bon rapport qualité-prix pour les équipes déjà sur Google'
     ],
     whyEn: [
       'Native integration in Google Sheets, Docs and Gmail - ideal for Google ecosystem',
@@ -144,8 +144,8 @@ export const TOOLS = {
       'Good value for teams already on Google'
     ],
     vigilanceFr: [
-      'Moins performant que Claude sur les taches analytiques Finance complexes',
-      'Hebergement hors UE par defaut - verifier conformite RGPD'
+      'Moins performant que Claude sur les tâches analytiques Finance complexes',
+      'Hébergement hors UE par défaut - vérifier conformité RGPD'
     ],
     vigilanceEn: [
       'Less performant than Claude on complex Finance analytical tasks',
@@ -167,9 +167,9 @@ export const TOOLS = {
     descEn: "The only sovereign European LLM. 100% France hosting - the only option for highly sensitive data subject to strict GDPR.",
     moduleNote: null,
     whyFr: [
-      'Hebergement 100% France et Union Europeenne - conformite RGPD maximale',
-      'Option souveraine pour les donnees tres sensibles (M&A, audit, compliance)',
-      'Modeles open source deployables sur infrastructure privee si necessaire'
+      'Hébergement 100% France et Union Européenne - conformité RGPD maximale',
+      'Option souveraine pour les données très sensibles (M&A, audit, compliance)',
+      'Modèles open source déployables sur infrastructure privée si nécessaire'
     ],
     whyEn: [
       '100% France and EU hosting - maximum GDPR compliance',
@@ -177,8 +177,8 @@ export const TOOLS = {
       'Open source models deployable on private infrastructure if needed'
     ],
     vigilanceFr: [
-      'Qualite analytique inferieure a Claude et ChatGPT sur les taches FP&A complexes',
-      'Ecosystem d integration moins developpe que les solutions US'
+      'Qualité analytique inférieure à Claude et ChatGPT sur les tâches FP&A complexes',
+      "Écosystème d'intégration moins développé que les solutions US"
     ],
     vigilanceEn: [
       'Analytical quality below Claude and ChatGPT for complex FP&A tasks',
