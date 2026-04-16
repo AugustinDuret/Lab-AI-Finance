@@ -39,15 +39,15 @@ export const TOOLS = {
       'Ideal for teams already on Microsoft 365 at no extra cost'
     ],
     vigilanceFr: [
-      'Necessite une licence Microsoft 365 E3/E5 - environ 36 EUR/user/mois',
+      'Necessite une licence Copilot for Microsoft 365 en complement de M365 (non inclus dans E3/E5)',
       'Raisonnement analytique moins profond que Claude sur les taches complexes'
     ],
     vigilanceEn: [
-      'Requires Microsoft 365 E3/E5 licence - approx EUR 36/user/month',
+      'Requires a separate Copilot for Microsoft 365 licence on top of M365 (not included in E3/E5)',
       'Less deep analytical reasoning than Claude on complex tasks'
     ],
-    budgetFr: 'Inclus dans Microsoft 365 E3 ou E5 - Copilot Pro standalone : 22 EUR/mois',
-    budgetEn: 'Included in Microsoft 365 E3 or E5 - Copilot Pro standalone: EUR 22/month',
+    budgetFr: 'Copilot for M365 : 30 EUR/user/mois en add-on - Copilot Pro (perso) : 22 EUR/mois',
+    budgetEn: 'Copilot for M365: EUR 30/user/month as add-on - Copilot Pro (personal): EUR 22/month',
     rgpd: true,
     startStepsFr: ["Vérifier votre licence Microsoft 365 (E3 ou E5)", "Activer Copilot pour Microsoft 365 auprès de votre IT/DSI", "Commencer par Excel : tapez '/' pour activer Copilot dans une feuille"],
     startStepsEn: ["Check your Microsoft 365 licence (E3 or E5)", "Activate Copilot for Microsoft 365 with your IT/IS department", "Start with Excel: type '/' to activate Copilot in a sheet"],
@@ -64,19 +64,21 @@ export const TOOLS = {
     whyFr: [
       'Meilleur raisonnement analytique du marche - ideal pour variance, narratifs, M&A',
       'Contexte 200k tokens - analyse de documents longs sans perte de coherence',
-      'Qualite redactionnelle executive en francais native'
+      'Qualite redactionnelle executive en francais native',
+      'Add-ins Excel et PowerPoint disponibles (beta) + outil de generation de slides depuis Excel'
     ],
     whyEn: [
       'Best analytical reasoning on the market - ideal for variance, narratives, M&A',
       '200k token context - long document analysis without coherence loss',
-      'Native executive writing quality in French'
+      'Native executive writing quality in French',
+      'Excel and PowerPoint add-ins available (beta) + slide generation tool from Excel'
     ],
     vigilanceFr: [
-      'Pas d integration native dans Excel ou PowerPoint - copier-coller necessaire',
+      'Add-ins Office en beta - integration moins fluide que Copilot natif dans Microsoft 365',
       'Necessite une validation DSI selon la politique de donnees de l entreprise'
     ],
     vigilanceEn: [
-      'No native Excel or PowerPoint integration - copy-paste required',
+      'Office add-ins in beta - less seamless than native Copilot integration in Microsoft 365',
       'Requires IT validation depending on company data policy'
     ],
     budgetFr: 'Claude Pro : 20 EUR/mois - Claude Max : 100 EUR/mois',
