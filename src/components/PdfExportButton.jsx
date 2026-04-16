@@ -3,8 +3,9 @@ import { TOOLS } from '../data/tools.js';
 import { LOGOS, svgToPng } from '../data/logos.js';
 import { TASKS_BY_ID } from '../data/tasks.js';
 import { getPromptsForTasks } from '../data/prompts.js';
+import { generateDimNarrative } from '../data/narratives.js';
 
-// ASCII transliteration — jsPDF Helvetica est Latin-1, pas UTF-8
+// ASCII transliteration - jsPDF Helvetica est Latin-1, pas UTF-8
 const a = (str) =>
   String(str || '')
     .replace(/[€]/g, 'EUR').replace(/[£]/g, 'GBP')
@@ -175,7 +176,7 @@ export default function PdfExportButton({ recommendation, answers, lang }) {
       };
 
       // ════════════════════════════════════════════════════════════
-      // PAGE 1 — RECOMMANDATION
+      // PAGE 1 - RECOMMANDATION
       // ════════════════════════════════════════════════════════════
       drawHeader();
       y = 40;
@@ -349,46 +350,66 @@ export default function PdfExportButton({ recommendation, answers, lang }) {
           y += 12;
         }
 
-        // ── Scores analytiques (grille 2 colonnes) ───────────────
+        // ── Scores analytiques (colonne unique avec narratives) ──
         if (primary.dimScores) {
           const { q, w, t, g } = primary.dimScores;
-          need(50);
+          need(30);
           y += sLabel(lang === 'fr' ? "Detail de l'analyse" : 'Analysis breakdown', y);
 
           const dims = lang === 'fr'
-            ? [['Qualite analytique', q], ['Integration workflow', w], ['Tracabilite', t], ['Gouvernance IT', g]]
-            : [['Analytical quality', q], ['Workflow integration', w], ['Traceability', t], ['IT governance', g]];
+            ? [
+                { key: 'q', label: 'Qualite analytique',   weight: '40%', score: q },
+                { key: 'w', label: 'Integration workflow',  weight: '30%', score: w },
+                { key: 't', label: 'Tracabilite / Audit',   weight: '20%', score: t },
+                { key: 'g', label: 'Gouvernance IT',        weight: '10%', score: g },
+              ]
+            : [
+                { key: 'q', label: 'Analytical quality',   weight: '40%', score: q },
+                { key: 'w', label: 'Workflow integration',  weight: '30%', score: w },
+                { key: 't', label: 'Traceability / Audit',  weight: '20%', score: t },
+                { key: 'g', label: 'IT Governance',         weight: '10%', score: g },
+              ];
 
-          const colW = (CW - 8) / 2;
+          dims.forEach(({ key, label, weight, score }) => {
+            const barColor  = score >= 75 ? GREEN : score >= 55 ? GOLD : [200, 80, 80];
+            const narrative = primary.dimNarratives?.[key] || generateDimNarrative(primary.toolId, key, score, answers, lang);
+            const narLines  = narrative ? doc.splitTextToSize(a(narrative), CW - 8) : [];
+            const itemH     = 6 + 5 + (narLines.length > 0 ? narLines.length * lh(8) + 4 : 0) + 8;
 
-          dims.forEach(([label, score], i) => {
-            const col = i % 2;
-            const row = Math.floor(i / 2);
-            const cx  = M + col * (colW + 8);
-            const cy  = y + row * 20;
-            const barColor = score >= 75 ? GREEN : score >= 55 ? GOLD : [200, 80, 80];
+            need(itemH);
 
-            // Label + score
+            // Label + poids + score
             doc.setFontSize(8);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(...MUTED);
-            doc.text(a(label), cx, cy + 5);
+            doc.text(a(label) + ' (' + weight + ')', M, y + 5);
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(...barColor);
-            doc.text(score + '/100', cx + colW, cy + 5, { align: 'right' });
+            doc.text(score + '/100', M + CW, y + 5, { align: 'right' });
 
-            // Mini barre
+            // Barre pleine largeur
             doc.setFillColor(220, 228, 224);
-            doc.roundedRect(cx, cy + 7, colW, 3, 1, 1, 'F');
+            doc.roundedRect(M, y + 7, CW, 3, 1, 1, 'F');
             doc.setFillColor(...barColor);
-            doc.roundedRect(cx, cy + 7, colW * score / 100, 3, 1, 1, 'F');
+            doc.roundedRect(M, y + 7, CW * score / 100, 3, 1, 1, 'F');
+
+            // Texte narratif
+            if (narLines.length > 0) {
+              doc.setFontSize(8);
+              doc.setFont('helvetica', 'normal');
+              doc.setTextColor(...MUTED);
+              doc.text(narLines, M + 4, y + 14);
+              y += 6 + 5 + narLines.length * lh(8) + 6;
+            } else {
+              y += 14;
+            }
           });
-          y += 44;
+          y += 4;
         }
 
         // ════════════════════════════════════════════════════════
-        // PAGE 2+ — PROMPTS COMPLETS
+        // PAGE 2+ - PROMPTS COMPLETS
         // ════════════════════════════════════════════════════════
         const taskIds = (primary.taskDetails ?? []).map(td => td.taskId);
         const prompts = getPromptsForTasks(taskIds, lang, 2);

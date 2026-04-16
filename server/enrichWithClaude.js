@@ -61,55 +61,97 @@ spécifique au profil ci-dessous. Réponds UNIQUEMENT avec du JSON valide, sans 
     : `You are an expert in AI for Finance teams. Generate a personalised, factual analysis specific to the profile below.
 Respond ONLY with valid JSON, no text before or after, no markdown.`
 
-  const why1  = fr ? 'Raison 1 — liée aux tâches et fonctions spécifiques de cet utilisateur'  : "Reason 1 — tied to this user's specific tasks and functions"
-  const why2  = fr ? 'Raison 2 — lien avec leur écosystème IT ou contraintes budget/DSI'        : 'Reason 2 — link to their IT ecosystem or budget/IT constraints'
-  const why3  = fr ? 'Raison 3 — point fort sur la dimension la mieux notée'                    : 'Reason 3 — strength on the highest-scoring dimension'
-  const lim1  = fr ? 'Limitation 1 la plus pertinente pour ce profil précis'                    : 'Limitation 1 most relevant to this specific profile'
-  const lim2  = fr ? 'Limitation 2 avec conseil pratique pour la contourner'                    : 'Limitation 2 with practical advice to work around it'
-  const narQ  = fr ? '2 phrases sur la qualité analytique pour les tâches de cet utilisateur'   : "2 sentences on analytical quality for this user's tasks"
-  const narW  = fr ? "2 phrases sur l'intégration dans leur écosystème IT spécifique"           : 'Sentences on integration in their specific IT ecosystem'
-  const narT  = fr ? 'Traçabilité adaptée à leur niveau de sensibilité données (2 phrases)'     : 'Traceability for their data sensitivity level (2 sentences)'
-  const narG  = fr ? 'Gouvernance dans leur contexte DSI (2 phrases)'                           : 'Governance in their IT approval context (2 sentences)'
-  const instr = fr
-    ? 'Génère le JSON suivant (max 15 mots par item pour whyPersonalized et limitationsPersonalized, 2 phrases pour les narratives) :'
-    : 'Generate the following JSON (max 15 words per item for whyPersonalized and limitationsPersonalized, 2 sentences for narratives):'
-
-  const profileSection = fr ? 'PROFIL UTILISATEUR' : 'USER PROFILE'
-  const toolSection    = fr ? 'OUTIL RECOMMANDÉ'   : 'RECOMMENDED TOOL'
-  const dimSection     = fr ? 'SCORES PAR DIMENSION' : 'DIMENSION SCORES'
-  const taskSection    = fr ? 'TÂCHES AVEC SCORES'   : 'TASKS WITH SCORES'
-  const fnLabel        = fr ? 'Fonctions Finance'     : 'Finance functions'
-  const tsLabel        = fr ? "Taille d'équipe"       : 'Team size'
-  const notSpec        = fr ? 'Non précisé'           : 'Not specified'
-
-  const userMsg = `${profileSection} :
-- ${fnLabel} : ${functions.length ? functions.join(', ') : notSpec}
-- ${tsLabel} : ${teamSize || notSpec}
-- ${fr ? 'Écosystème IT' : 'IT ecosystem'} : ${ecoLabel}
-- ${fr ? 'Sensibilité des données' : 'Data sensitivity'} : ${sensiLabel}
+  const userMsg = fr
+    ? `PROFIL UTILISATEUR :
+- Fonctions Finance : ${functions.length ? functions.join(', ') : 'Non précisé'}
+- Taille d'équipe : ${teamSize || 'Non précisé'}
+- Écosystème IT : ${ecoLabel}
+- Sensibilité des données : ${sensiLabel}
 - Budget : ${budgetLabel}
-- ${fr ? 'Validation DSI' : 'IT approval'} : ${dsiLabel}
+- Validation DSI : ${dsiLabel}
 
-${toolSection} : ${toolName} — Score ${score}/100
+OUTIL RECOMMANDÉ : ${toolName} - Score ${score}/100
 
-${dimSection} :
-- ${fr ? 'Qualité analytique' : 'Analytical quality'} (40 %) : ${dimScores.q}/100
-- ${fr ? 'Intégration workflow' : 'Workflow integration'} (30 %) : ${dimScores.w}/100
-- ${fr ? 'Traçabilité / Audit' : 'Traceability / Audit'} (20 %) : ${dimScores.t}/100
-- ${fr ? 'Gouvernance IT' : 'IT Governance'} (10 %) : ${dimScores.g}/100
+SCORES PAR DIMENSION :
+- Qualité analytique (40 %) : ${dimScores.q}/100
+- Intégration workflow (30 %) : ${dimScores.w}/100
+- Traçabilité / Audit (20 %) : ${dimScores.t}/100
+- Gouvernance IT (10 %) : ${dimScores.g}/100
 
-${taskSection} :
+TÂCHES AVEC SCORES :
 ${taskLines}
 
-${instr}
+Génère un JSON avec exactement cette structure. Remplace chaque "..." par du contenu réel adapté au profil :
+
+whyPersonalized : 3 raisons courtes (max 15 mots chacune) pourquoi cet outil est le meilleur choix pour CE profil précis.
+  - [0] : raison liée aux tâches et fonctions Finance sélectionnées
+  - [1] : raison liée à l'écosystème IT ou aux contraintes budget/DSI
+  - [2] : point fort sur la dimension ayant le score le plus élevé
+
+limitationsPersonalized : 2 limitations courtes (max 15 mots chacune) les plus importantes pour ce profil.
+  - [0] : la limitation la plus impactante pour ce profil
+  - [1] : une limitation avec un conseil pratique pour la contourner
+
+dimNarratives : 4 textes de 2 phrases chacun, adaptés au profil.
+  - q : qualité analytique pour les tâches spécifiques de cet utilisateur
+  - w : intégration dans leur écosystème IT spécifique (${ecoLabel})
+  - t : traçabilité adaptée à leur niveau de sensibilité données (${sensiLabel})
+  - g : gouvernance dans leur contexte DSI (${dsiLabel})
+
 {
-  "whyPersonalized": ["${why1}", "${why2}", "${why3}"],
-  "limitationsPersonalized": ["${lim1}", "${lim2}"],
+  "whyPersonalized": ["...", "...", "..."],
+  "limitationsPersonalized": ["...", "..."],
   "dimNarratives": {
-    "q": "${narQ}",
-    "w": "${narW}",
-    "t": "${narT}",
-    "g": "${narG}"
+    "q": "...",
+    "w": "...",
+    "t": "...",
+    "g": "..."
+  }
+}`
+    : `USER PROFILE:
+- Finance functions: ${functions.length ? functions.join(', ') : 'Not specified'}
+- Team size: ${teamSize || 'Not specified'}
+- IT ecosystem: ${ecoLabel}
+- Data sensitivity: ${sensiLabel}
+- Budget: ${budgetLabel}
+- IT approval: ${dsiLabel}
+
+RECOMMENDED TOOL: ${toolName} - Score ${score}/100
+
+DIMENSION SCORES:
+- Analytical quality (40%): ${dimScores.q}/100
+- Workflow integration (30%): ${dimScores.w}/100
+- Traceability / Audit (20%): ${dimScores.t}/100
+- IT Governance (10%): ${dimScores.g}/100
+
+TASKS WITH SCORES:
+${taskLines}
+
+Generate a JSON with exactly this structure. Replace each "..." with real content tailored to the profile:
+
+whyPersonalized: 3 short reasons (max 15 words each) why this tool is the best choice for THIS specific profile.
+  - [0]: reason tied to the selected Finance tasks and functions
+  - [1]: reason tied to IT ecosystem or budget/IT approval constraints
+  - [2]: strength on the highest-scoring dimension
+
+limitationsPersonalized: 2 short limitations (max 15 words each) most important for this profile.
+  - [0]: the most impactful limitation for this profile
+  - [1]: a limitation with a practical workaround
+
+dimNarratives: 4 texts of 2 sentences each, tailored to the profile.
+  - q: analytical quality for this user's specific tasks
+  - w: integration in their specific IT ecosystem (${ecoLabel})
+  - t: traceability for their data sensitivity level (${sensiLabel})
+  - g: governance in their IT approval context (${dsiLabel})
+
+{
+  "whyPersonalized": ["...", "...", "..."],
+  "limitationsPersonalized": ["...", "..."],
+  "dimNarratives": {
+    "q": "...",
+    "w": "...",
+    "t": "...",
+    "g": "..."
   }
 }`
 
@@ -131,9 +173,10 @@ async function enrichResult(client, result, answers, lang) {
     // Strip optional ```json fences
     const jsonStr = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
     const enriched = JSON.parse(jsonStr)
-    return { ...result, ...enriched }
+    console.log(`[Claude] ✓ Enriched ${result.toolId} (score ${result.score})`)
+    return { ...result, ...enriched, _claudeEnriched: true }
   } catch (e) {
-    console.error(`[Claude] Enrichment failed for ${result.toolId}:`, e.message)
+    console.error(`[Claude] ✗ Enrichment failed for ${result.toolId}:`, e.message)
     return result  // silent fallback to base result
   }
 }
@@ -141,6 +184,7 @@ async function enrichResult(client, result, answers, lang) {
 // ── Main export ──────────────────────────────────────────────────
 export async function enrichWithClaude(recommendation, answers, lang = 'fr') {
   if (!process.env.ANTHROPIC_API_KEY) {
+    console.log('[Claude] No API key - returning base engine result')
     return recommendation
   }
 

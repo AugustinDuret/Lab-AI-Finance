@@ -1,5 +1,5 @@
 // Generates contextual narrative sentences for each analysis dimension.
-// Structured for future Claude API integration — currently deterministic.
+// Structured for future Claude API integration - currently deterministic.
 
 const TOOL_SHORT = { copilot: 'Copilot', claude: 'Claude', chatgpt: 'ChatGPT', gemini: 'Gemini', mistral: 'Mistral AI' };
 
@@ -60,8 +60,8 @@ export function generateDimNarrative(toolId, dim, score, answers, lang) {
                : `Gemini integrates directly into Google Sheets and Docs. Your usual workflows are enhanced without additional friction.`;
     }
     if ((toolId === 'claude' || toolId === 'chatgpt' || toolId === 'mistral') && ecosystem === 'microsoft365') {
-      return fr ? `${tn} fonctionne en dehors de votre suite Microsoft 365. Des allers-retours copier-coller sont à prévoir — sauf si une intégration tierce est mise en place.`
-               : `${tn} works outside your Microsoft 365 suite. Copy-paste back-and-forth is expected — unless a third-party integration is set up.`;
+      return fr ? `${tn} fonctionne en dehors de votre suite Microsoft 365. Des allers-retours copier-coller sont à prévoir - sauf si une intégration tierce est mise en place.`
+               : `${tn} works outside your Microsoft 365 suite. Copy-paste back-and-forth is expected - unless a third-party integration is set up.`;
     }
     if (hi)  return fr ? `${tn} s'intègre bien dans vos workflows Finance. La prise en main est rapide et la courbe d'apprentissage limitée.`
                        : `${tn} integrates well into your Finance workflows. Onboarding is fast and the learning curve is minimal.`;

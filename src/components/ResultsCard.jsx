@@ -94,12 +94,14 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem, ans
             }
           </div>
           <div>
-            <div style={{
-              fontSize: 11, fontWeight: 600, letterSpacing: '0.07em',
-              textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 5
-            }}>
-              {isPrimary ? `✦ ${t.primaryTool}` : t.secondaryTool}
-            </div>
+            {!isPrimary && (
+              <div style={{
+                fontSize: 11, fontWeight: 600, letterSpacing: '0.07em',
+                textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 5
+              }}>
+                {t.secondaryTool}
+              </div>
+            )}
             <div style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 22, color: 'var(--text-primary)', lineHeight: 1.2 }}>
               {lang === 'fr' ? tool.nameFr : tool.nameEn}
             </div>
@@ -130,7 +132,7 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem, ans
       {/* ── Card body ────────────────────────────────── */}
       <div style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 24 }}>
 
-        {/* Pourquoi cet outil — raisons métier */}
+        {/* Pourquoi cet outil - raisons métier */}
         <div>
           <div style={{
             fontSize: 11, fontWeight: 700, letterSpacing: '0.08em',

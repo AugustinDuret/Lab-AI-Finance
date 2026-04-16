@@ -250,7 +250,7 @@ export function computeRecommendation(answers) {
   const {
     ecosystem       = 'unknown',  // 'microsoft365' | 'google' | 'mixed' | 'unknown'
     dsiValidation   = 'unknown',  // 'yes' | 'no' | 'unknown'
-    selectedTasks   = [],         // string[] — IDs des tâches sélectionnées
+    selectedTasks   = [],         // string[] - IDs des tâches sélectionnées
     budget          = '',         // 'free' | 'paid' | ''
     dataSensitivity = 'medium',   // 'low' | 'medium' | 'high'
   } = answers

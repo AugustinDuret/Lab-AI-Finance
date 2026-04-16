@@ -148,7 +148,7 @@ export default function App() {
         body:    JSON.stringify({ answers, lang, turnstileToken }),
       })
       if (res.status === 403) {
-        // Bot check failed — go back to form, widget will reset
+        // Bot check failed - go back to form, widget will reset
         setView(VIEWS.FORM)
         return
       }
@@ -246,7 +246,7 @@ export default function App() {
           padding: '12px 24px'
         }}>
           <div style={{ maxWidth: 720, margin: '0 auto' }}>
-            {/* Labels des sections — masqués sur mobile */}
+            {/* Labels des sections - masqués sur mobile */}
             {!isMobile && (
               <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
                 {SECTION_LABELS[lang].map((label, i) => (
@@ -509,7 +509,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* CTA card — masquée sur mobile (sticky bottom btn prend le relais) */}
+            {/* CTA card - masquée sur mobile (sticky bottom btn prend le relais) */}
             <div className="cta-inline" style={{
               background: 'var(--bg-card)', borderRadius: 16,
               border: '1px solid var(--border-green)', padding: '28px 28px 32px', textAlign: 'center'
@@ -699,7 +699,7 @@ export default function App() {
             )}
           </div>
 
-          {/* Div d'impression — caché à l'écran, visible uniquement en @media print */}
+          {/* Div d'impression - caché à l'écran, visible uniquement en @media print */}
           <div id="print-target" style={{ display: 'none' }}>
             <div id="print-header">
               <div style={{ fontSize: 20, fontWeight: 800, color: '#2D7060', fontFamily: 'Sora, Arial' }}>

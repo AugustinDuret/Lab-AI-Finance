@@ -12,7 +12,7 @@ app.use(express.json())
 // ── Cloudflare Turnstile verification ───────────────────────────
 async function verifyTurnstile(token, ip) {
   const secret = process.env.TURNSTILE_SECRET_KEY
-  if (!secret) return true  // not configured — skip check (dev mode)
+  if (!secret) return true  // not configured - skip check (dev mode)
   if (!token) return false
 
   const body = new URLSearchParams({ secret, response: token })
@@ -63,10 +63,10 @@ app.post('/api/recommend', async (req, res) => {
 // Health check (used by Railway)
 app.get('/api/health', (_req, res) => res.json({ ok: true }))
 
-// Status — shows whether Claude API key is configured
+// Status - shows whether Claude API key is configured
 app.get('/api/status', (_req, res) => res.json({ claudeApiKey: !!process.env.ANTHROPIC_API_KEY }))
 
-// SPA fallback — all other GET routes serve the React app
+// SPA fallback - all other GET routes serve the React app
 app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'))
 })
@@ -74,6 +74,6 @@ app.get('*', (_req, res) => {
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Lab-AI-Finance server → http://localhost:${PORT}`)
-  console.log(`Claude API:  ${process.env.ANTHROPIC_API_KEY    ? '✓ connected' : '✗ no key — using base engine'}`)
-  console.log(`Turnstile:   ${process.env.TURNSTILE_SECRET_KEY  ? '✓ enabled'   : '✗ no key — bot check disabled'}`)
+  console.log(`Claude API:  ${process.env.ANTHROPIC_API_KEY    ? '✓ connected' : '✗ no key - using base engine'}`)
+  console.log(`Turnstile:   ${process.env.TURNSTILE_SECRET_KEY  ? '✓ enabled'   : '✗ no key - bot check disabled'}`)
 })

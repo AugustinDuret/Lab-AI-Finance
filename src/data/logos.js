@@ -1,4 +1,4 @@
-// SVG logos for each tool — white icons, rendered on tool.logoBg background
+// SVG logos for each tool - white icons, rendered on tool.logoBg background
 // Used in ResultsCard (UI) and PdfExportButton (PDF via canvas→PNG)
 
 export const LOGOS = {
