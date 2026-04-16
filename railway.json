@@ -1,1 +1,1 @@
-{"build":{"builder":"NIXPACKS","buildCommand":"echo skip"},"deploy":{"startCommand":"node server/index.js","healthcheckPath":"/api/health"}}
+{"build":{"builder":"NIXPACKS","buildCommand":"npm run build"},"deploy":{"startCommand":"node server/index.js","healthcheckPath":"/api/health"}}
