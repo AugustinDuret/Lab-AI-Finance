@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { TOOLS, TOOL_URLS } from '../data/tools.js'
 import { TASKS_BY_ID } from '../data/tasks.js'
 import { getPromptsForTasks } from '../data/prompts.js'
+import { logoDataUrl } from '../data/logos.js'
+import { generateDimNarrative } from '../data/narratives.js'
 import ScoreBar from './ScoreBar.jsx'
 
-export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
+export default function ResultsCard({ result, t, lang, isPrimary, ecosystem, answers }) {
   const [promptCopied, setPromptCopied] = useState(null)
   const [openPromptId, setOpenPromptId] = useState(null)
   const [showMatrix, setShowMatrix] = useState(false)
@@ -84,11 +86,12 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
             width: 52, height: 52, borderRadius: 14,
             background: tool.logoBg,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0
+            flexShrink: 0, overflow: 'hidden'
           }}>
-            <span style={{ fontWeight: 800, fontSize: 16, color: 'white', fontFamily: 'Sora' }}>
-              {tool.logoInitial}
-            </span>
+            {logoDataUrl(result.toolId)
+              ? <img src={logoDataUrl(result.toolId)} width={30} height={30} alt="" style={{ display: 'block' }} />
+              : <span style={{ fontWeight: 800, fontSize: 16, color: 'white', fontFamily: 'Sora' }}>{tool.logoInitial}</span>
+            }
           </div>
           <div>
             <div style={{
@@ -171,7 +174,7 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
               textTransform: 'uppercase',
               letterSpacing: '0.06em'
             }}>
-              {lang === 'fr' ? '🔬 Détail de l\'analyse' : '🔬 Analysis detail'}
+              {lang === 'fr' ? '🔍 Détail de l\'analyse' : '🔍 Analysis detail'}
             </span>
             <span style={{
               color: 'var(--text-muted)', fontSize: 11,
@@ -197,42 +200,58 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem }) {
                   : 'Composite score across 4 dimensions. Weighting: Quality 40% · Workflow 30% · Traceability 20% · Governance 10%.'}
               </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {[
-                  { label: lang === 'fr' ? 'Qualité analytique' : 'Analytical quality', weight: '40%', color: '#2D7060', score: result.dimScores?.q ?? result.score },
-                  { label: lang === 'fr' ? 'Intégration workflow' : 'Workflow integration', weight: '30%', color: '#3D9080', score: result.dimScores?.w ?? Math.round(result.score * 0.9) },
-                  { label: lang === 'fr' ? 'Traçabilité / Audit' : 'Traceability / Audit', weight: '20%', color: '#C4A35A', score: result.dimScores?.t ?? Math.round(result.score * 0.85) },
-                  { label: lang === 'fr' ? 'Gouvernance / Déploiement' : 'Governance / Deployment', weight: '10%', color: '#8FA89A', score: result.dimScores?.g ?? Math.round(result.score * 0.8) }
-                ].map(dim => (
-                  <div key={dim.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ flex: '0 0 155px', fontSize: 12, color: 'var(--text-secondary)' }}>
-                      <span style={{ fontWeight: 600 }}>{dim.label}</span>
-                      <span style={{ color: 'var(--text-muted)', marginLeft: 4, fontSize: 10 }}>
-                        ({dim.weight})
-                      </span>
+                  { key: 'q', label: lang === 'fr' ? 'Qualité analytique' : 'Analytical quality', weight: '40%', color: '#2D7060', score: result.dimScores?.q ?? result.score },
+                  { key: 'w', label: lang === 'fr' ? 'Intégration workflow' : 'Workflow integration', weight: '30%', color: '#3D9080', score: result.dimScores?.w ?? Math.round(result.score * 0.9) },
+                  { key: 't', label: lang === 'fr' ? 'Traçabilité / Audit' : 'Traceability / Audit', weight: '20%', color: '#C4A35A', score: result.dimScores?.t ?? Math.round(result.score * 0.85) },
+                  { key: 'g', label: lang === 'fr' ? 'Gouvernance / Déploiement' : 'Governance / Deployment', weight: '10%', color: '#8FA89A', score: result.dimScores?.g ?? Math.round(result.score * 0.8) }
+                ].map(dim => {
+                  const narrative = generateDimNarrative(result.toolId, dim.key, dim.score, answers, lang);
+                  return (
+                    <div key={dim.key}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: narrative ? 6 : 0 }}>
+                        <div style={{ flex: '0 0 155px', fontSize: 12, color: 'var(--text-secondary)' }}>
+                          <span style={{ marginRight: 4 }}>💡</span>
+                          <span style={{ fontWeight: 600 }}>{dim.label}</span>
+                          <span style={{ color: 'var(--text-muted)', marginLeft: 4, fontSize: 10 }}>
+                            ({dim.weight})
+                          </span>
+                        </div>
+                        <div style={{
+                          flex: 1, height: 6,
+                          background: 'rgba(255,255,255,0.08)',
+                          borderRadius: 99, overflow: 'hidden'
+                        }}>
+                          <div style={{
+                            height: '100%',
+                            width: `${dim.score}%`,
+                            background: dim.color,
+                            borderRadius: 99,
+                            transition: 'width 0.6s ease'
+                          }} />
+                        </div>
+                        <div style={{
+                          flex: '0 0 28px', fontSize: 12,
+                          fontWeight: 700, color: 'var(--text-primary)',
+                          textAlign: 'right'
+                        }}>
+                          {dim.score}
+                        </div>
+                      </div>
+                      {narrative && (
+                        <div style={{
+                          fontSize: 11.5, color: 'var(--text-muted)',
+                          lineHeight: 1.55,
+                          borderLeft: '2px solid rgba(255,255,255,0.06)',
+                          marginLeft: 2, paddingLeft: 10
+                        }}>
+                          {narrative}
+                        </div>
+                      )}
                     </div>
-                    <div style={{
-                      flex: 1, height: 6,
-                      background: 'rgba(255,255,255,0.08)',
-                      borderRadius: 99, overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        height: '100%',
-                        width: `${dim.score}%`,
-                        background: dim.color,
-                        borderRadius: 99,
-                        transition: 'width 0.6s ease'
-                      }} />
-                    </div>
-                    <div style={{
-                      flex: '0 0 28px', fontSize: 12,
-                      fontWeight: 700, color: 'var(--text-primary)',
-                      textAlign: 'right'
-                    }}>
-                      {dim.score}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <p style={{

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { TOOLS, TOOL_ICONS } from '../data/tools.js';
+import { TOOLS } from '../data/tools.js';
+import { LOGOS, svgToPng } from '../data/logos.js';
 import { TASKS_BY_ID } from '../data/tasks.js';
 import { getPromptsForTasks } from '../data/prompts.js';
 
@@ -16,23 +17,6 @@ const a = (str) =>
     .replace(/[\u201C\u201D\u00AB\u00BB]/g, '"')
     .replace(/[\u2013\u2014]/g, '-').replace(/\u2026/g, '...')
     .replace(/[·•]/g, '-').replace(/[^\x20-\x7E]/g, '');
-
-// Rend un emoji en data URL PNG via canvas (supporté par tous les navigateurs)
-const emojiToDataURL = (emoji, size = 60) => {
-  try {
-    const canvas = document.createElement('canvas');
-    canvas.width  = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-    ctx.font         = `${Math.round(size * 0.72)}px serif`;
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(emoji, size / 2, size / 2 + 2);
-    return canvas.toDataURL('image/png');
-  } catch {
-    return null;
-  }
-};
 
 // Parse hex color -> [r, g, b]
 const hex2rgb = (hex) => {
@@ -204,7 +188,7 @@ export default function PdfExportButton({ recommendation, answers, lang }) {
         const toolName  = TOOL_NAMES[toolId] ?? toolId;
         const toolRGB   = hex2rgb(toolData.logoBg ?? '#2D7060');
         const logoIni   = a(toolData.logoInitial ?? toolId.slice(0,2).toUpperCase());
-        const emojiImg  = emojiToDataURL(TOOL_ICONS[toolId] ?? '', 60);
+        const logoPng   = LOGOS[toolId] ? await svgToPng(LOGOS[toolId], 80) : null;
         const reasons  = (lang === 'fr' ? toolData.whyFr       : toolData.whyEn)       ?? [];
         const vigilance= (lang === 'fr' ? toolData.vigilanceFr : toolData.vigilanceEn) ?? [];
         const budget   = (lang === 'fr' ? toolData.budgetFr    : toolData.budgetEn)    ?? '';
@@ -224,11 +208,11 @@ export default function PdfExportButton({ recommendation, answers, lang }) {
         doc.setFillColor(...toolRGB);
         doc.roundedRect(M, y, 5, CARD_H, 2, 2, 'F');
 
-        // Badge logo (emoji rendu via canvas, ou fallback initiales)
+        // Badge logo SVG converti en PNG, ou fallback initiales
         doc.setFillColor(...toolRGB);
         doc.roundedRect(M + 10, y + 10, 20, 20, 3, 3, 'F');
-        if (emojiImg) {
-          doc.addImage(emojiImg, 'PNG', M + 11, y + 11, 18, 18);
+        if (logoPng) {
+          doc.addImage(logoPng, 'PNG', M + 11.5, y + 11.5, 17, 17);
         } else {
           doc.setFontSize(10);
           doc.setFont('helvetica', 'bold');

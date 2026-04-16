@@ -594,6 +594,7 @@ export default function App() {
                 result={recommendation.primary}
                 t={t} lang={lang} isPrimary={true}
                 ecosystem={recommendation.ecosystem}
+                answers={answers}
               />
             </div>
 
@@ -614,6 +615,7 @@ export default function App() {
                       result={recommendation.secondary}
                       t={t} lang={lang} isPrimary={false}
                       ecosystem={recommendation.ecosystem}
+                      answers={answers}
                     />
                   </div>
                 )}
