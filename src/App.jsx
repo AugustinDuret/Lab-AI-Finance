@@ -41,6 +41,62 @@ export default function App() {
   const [showSecondary, setShowSecondary] = useState(false)
   const resultsRef = useRef(null)
 
+  // ── Cloudflare Turnstile ──────────────────────────────────────
+  const TURNSTILE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || null
+  const [turnstileToken, setTurnstileToken] = useState(null)
+  const turnstileInlineRef = useRef(null)
+  const turnstileMobileRef = useRef(null)
+  const tsInlineId = useRef(null)
+  const tsMobileId = useRef(null)
+
+  // Load Turnstile script once
+  useEffect(() => {
+    if (!TURNSTILE_KEY || document.getElementById('cf-turnstile-script')) return
+    const s = document.createElement('script')
+    s.id = 'cf-turnstile-script'
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+    s.async = true
+    document.head.appendChild(s)
+  }, [])
+
+  // Render widgets when entering FORM, remove when leaving
+  useEffect(() => {
+    if (view !== VIEWS.FORM || !TURNSTILE_KEY) return
+    setTurnstileToken(null)
+
+    const opts = {
+      sitekey: TURNSTILE_KEY,
+      theme: 'dark',
+      callback: (token) => setTurnstileToken(token),
+      'expired-callback': () => setTurnstileToken(null),
+      'error-callback': () => setTurnstileToken(null),
+    }
+
+    let raf, attempts = 0
+    const tryRender = () => {
+      if (!window.turnstile) {
+        if (++attempts > 300) return
+        raf = requestAnimationFrame(tryRender)
+        return
+      }
+      if (turnstileInlineRef.current && tsInlineId.current === null)
+        tsInlineId.current = window.turnstile.render(turnstileInlineRef.current, opts)
+      if (turnstileMobileRef.current && tsMobileId.current === null)
+        tsMobileId.current = window.turnstile.render(turnstileMobileRef.current, opts)
+    }
+    raf = requestAnimationFrame(tryRender)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      if (window.turnstile) {
+        if (tsInlineId.current !== null) { window.turnstile.remove(tsInlineId.current); tsInlineId.current = null }
+        if (tsMobileId.current !== null) { window.turnstile.remove(tsMobileId.current); tsMobileId.current = null }
+      }
+    }
+  }, [view])
+
+  const canSubmit = !TURNSTILE_KEY || !!turnstileToken
+
   // Progress bar: auto-advance based on interactions
   useEffect(() => {
     if (view !== VIEWS.FORM) return
@@ -83,13 +139,19 @@ export default function App() {
   }
 
   const handleSubmit = async () => {
+    if (!canSubmit) return
     setView(VIEWS.LOADING)
     try {
       const res = await fetch('/api/recommend', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ answers, lang }),
+        body:    JSON.stringify({ answers, lang, turnstileToken }),
       })
+      if (res.status === 403) {
+        // Bot check failed — go back to form, widget will reset
+        setView(VIEWS.FORM)
+        return
+      }
       if (!res.ok) throw new Error('api ' + res.status)
       const result = await res.json()
       setRecommendation(result)
@@ -455,14 +517,18 @@ export default function App() {
               <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 22, lineHeight: 1.5 }}>
                 {t.analysisNote}
               </p>
-              <button onClick={handleSubmit}
+              {TURNSTILE_KEY && (
+                <div ref={turnstileInlineRef} style={{ marginBottom: 16, display: 'flex', justifyContent: 'center' }} />
+              )}
+              <button onClick={handleSubmit} disabled={!canSubmit}
                 style={{
                   background: 'var(--australe-green)',
                   color: 'var(--text-primary)', borderRadius: 50, padding: '16px 48px',
                   fontSize: 16, fontWeight: 600, fontFamily: 'Inter',
-                  border: 'none', cursor: 'pointer', transition: 'all 200ms',
+                  border: 'none', cursor: canSubmit ? 'pointer' : 'not-allowed',
+                  transition: 'all 200ms', opacity: canSubmit ? 1 : 0.45,
                   width: '100%', maxWidth: 360,
-                  boxShadow: '0 0 30px rgba(45,112,96,0.25)'
+                  boxShadow: canSubmit ? '0 0 30px rgba(45,112,96,0.25)' : 'none'
                 }}>
                 {t.ctaSubmit} →
               </button>
@@ -768,11 +834,15 @@ export default function App() {
           background: 'linear-gradient(transparent, var(--bg-primary) 40%)',
           zIndex: 40
         }} className="md:hidden">
-          <button onClick={handleSubmit}
+          {TURNSTILE_KEY && (
+            <div ref={turnstileMobileRef} style={{ marginBottom: 10, display: 'flex', justifyContent: 'center' }} />
+          )}
+          <button onClick={handleSubmit} disabled={!canSubmit}
             style={{
               background: 'var(--australe-green)',
               color: 'var(--text-primary)', borderRadius: 50, padding: '14px', fontSize: 15, fontWeight: 600,
-              width: '100%', border: 'none', cursor: 'pointer'
+              width: '100%', border: 'none', cursor: canSubmit ? 'pointer' : 'not-allowed',
+              opacity: canSubmit ? 1 : 0.45, transition: 'opacity 200ms'
             }}>
             {t.ctaSubmit} →
           </button>
