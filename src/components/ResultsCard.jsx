@@ -37,7 +37,7 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem, ans
     return lang === 'fr' ? task.labelFr : task.labelEn
   }
 
-  const whyReasons = lang === 'fr' ? tool.whyFr : tool.whyEn
+  const whyReasons = result.whyPersonalized || (lang === 'fr' ? tool.whyFr : tool.whyEn)
 
   return (
     <div style={{ position: 'relative', marginTop: isPrimary ? 20 : 0 }}>
@@ -207,7 +207,7 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem, ans
                   { key: 't', label: lang === 'fr' ? 'Traçabilité / Audit' : 'Traceability / Audit', weight: '20%', color: '#C4A35A', score: result.dimScores?.t ?? Math.round(result.score * 0.85) },
                   { key: 'g', label: lang === 'fr' ? 'Gouvernance / Déploiement' : 'Governance / Deployment', weight: '10%', color: '#8FA89A', score: result.dimScores?.g ?? Math.round(result.score * 0.8) }
                 ].map(dim => {
-                  const narrative = generateDimNarrative(result.toolId, dim.key, dim.score, answers, lang);
+                  const narrative = result.dimNarratives?.[dim.key] || generateDimNarrative(result.toolId, dim.key, dim.score, answers, lang);
                   return (
                     <div key={dim.key}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: narrative ? 6 : 0 }}>
@@ -432,7 +432,7 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem, ans
             textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 12
           }}>{t.vigilanceTitle}</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {(lang === 'fr' ? tool.vigilanceFr : tool.vigilanceEn).map((v, i) => (
+            {(result.limitationsPersonalized || (lang === 'fr' ? tool.vigilanceFr : tool.vigilanceEn)).map((v, i) => (
               <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                 <span style={{ color: 'var(--australe-gold)', fontWeight: 700, fontSize: 13, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>⚠</span>
                 <span style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{v}</span>

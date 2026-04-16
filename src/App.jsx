@@ -82,15 +82,25 @@ export default function App() {
     })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setView(VIEWS.LOADING)
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/recommend', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ answers, lang }),
+      })
+      if (!res.ok) throw new Error('api ' + res.status)
+      const result = await res.json()
+      setRecommendation(result)
+    } catch {
+      // Fallback: run engine client-side if server unreachable
       const result = computeRecommendation(answers)
       setRecommendation(result)
-      setShowSecondary(false)
-      setView(VIEWS.RESULTS)
-      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth' }), 80)
-    }, 1400)
+    }
+    setShowSecondary(false)
+    setView(VIEWS.RESULTS)
+    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth' }), 80)
   }
 
   const handleReset = () => {
