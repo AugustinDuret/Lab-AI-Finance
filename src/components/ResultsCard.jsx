@@ -488,27 +488,6 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem, ans
           </ol>
         </div>
 
-        {/* Lien externe vers l'outil */}
-        {TOOL_URLS[result.toolId] && (
-          <div style={{ borderTop: '1px solid var(--border-green)', paddingTop: 16 }}>
-            <a
-              href={TOOL_URLS[result.toolId]}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                fontSize: 13, fontWeight: 600,
-                color: 'var(--australe-green-light)',
-                textDecoration: 'none',
-                transition: 'opacity 150ms'
-              }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '0.7'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-            >
-              {t.toolLearnMore} →
-            </a>
-          </div>
-        )}
 
       </div>
       </div>
