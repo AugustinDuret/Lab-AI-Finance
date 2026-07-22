@@ -60,6 +60,7 @@ export default function TaskSelector({ t, lang, selectedTasks, onToggle }) {
                     <button
                       key={task.id}
                       onClick={() => onToggle(task.id)}
+                      aria-pressed={selected}
                       style={{
                         display: 'flex', alignItems: 'center', gap: 10,
                         padding: '10px 12px', borderRadius: 8,

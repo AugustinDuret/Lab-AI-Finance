@@ -159,6 +159,8 @@ dimNarratives: 4 texts of 2 sentences each, tailored to the profile.
 }
 
 // ── Enrich one result object with Claude ─────────────────────────
+const CLAUDE_TIMEOUT_MS = 12000
+
 async function enrichResult(client, result, answers, lang) {
   if (!result) return null
   try {
@@ -168,7 +170,7 @@ async function enrichResult(client, result, answers, lang) {
       max_tokens: 1024,
       system:     systemMsg,
       messages:   [{ role: 'user', content: userMsg }],
-    })
+    }, { timeout: CLAUDE_TIMEOUT_MS })
     const raw     = response.content[0].text.trim()
     // Strip optional ```json fences
     const jsonStr = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')

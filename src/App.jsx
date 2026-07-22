@@ -146,6 +146,7 @@ export default function App() {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({ answers, lang, turnstileToken }),
+        signal:  AbortSignal.timeout(15000),
       })
       if (res.status === 403) {
         // Bot check failed - go back to form, widget will reset
@@ -312,6 +313,7 @@ export default function App() {
                     {t.q2Options.map(o => (
                       <button key={o}
                         onClick={() => { toggleMulti('functions', o); setActiveSection(s => Math.max(s, 0)) }}
+                        aria-pressed={answers.functions.includes(o)}
                         style={chipStyle(answers.functions.includes(o))}>
                         {o}
                       </button>
@@ -347,6 +349,7 @@ export default function App() {
                       return (
                         <button key={opt.id}
                           onClick={() => { updateAnswer('ecosystem', opt.id); setActiveSection(s => Math.max(s, 1)) }}
+                          aria-pressed={active}
                           style={{
                             padding: '14px 18px', borderRadius: 12, cursor: 'pointer',
                             border: `1px solid ${active ? 'var(--australe-green)' : 'var(--border-green)'}`,
@@ -378,6 +381,7 @@ export default function App() {
                         {group.items.map(item => (
                           <button key={item}
                             onClick={() => { toggleMulti('dailyTools', item); setActiveSection(s => Math.max(s, 1)) }}
+                            aria-pressed={answers.dailyTools.includes(item)}
                             style={chipStyle(answers.dailyTools.includes(item))}>
                             {item}
                           </button>
@@ -396,6 +400,7 @@ export default function App() {
                     ].map(o => (
                       <button key={o.id}
                         onClick={() => { updateAnswer('dsiValidation', o.id); setActiveSection(s => Math.max(s, 1)) }}
+                        aria-pressed={answers.dsiValidation === o.id}
                         style={chipStyle(answers.dsiValidation === o.id)}>
                         {o.label}
                       </button>
@@ -433,6 +438,7 @@ export default function App() {
                             updateAnswer('budget', opt.id);
                             setActiveSection(prev => Math.max(prev, 3));
                           }}
+                          aria-pressed={selected}
                           style={{
                             padding: '14px 18px',
                             borderRadius: 10,
@@ -478,6 +484,7 @@ export default function App() {
                       return (
                         <button key={opt.id}
                           onClick={() => { updateAnswer('dataSensitivity', opt.id); setActiveSection(s => Math.max(s, 3)) }}
+                          aria-pressed={active}
                           style={{
                             padding: '12px 16px', borderRadius: 10, cursor: 'pointer',
                             border: `1px solid ${active ? 'var(--australe-green)' : 'var(--border-green)'}`,
@@ -500,6 +507,7 @@ export default function App() {
                     {t.q10Options.map(o => (
                       <button key={o}
                         onClick={() => { toggleMulti('rgpdRequirements', o); setActiveSection(s => Math.max(s, 3)) }}
+                        aria-pressed={answers.rgpdRequirements.includes(o)}
                         style={chipStyle(answers.rgpdRequirements.includes(o))}>
                         {o}
                       </button>
@@ -706,7 +714,7 @@ export default function App() {
                 Lab-AI-Finance
               </div>
               <div className="print-muted" style={{ fontSize: 12, marginTop: 4 }}>
-                Recommandation personnalisée · {new Date().toLocaleDateString('fr-FR')}
+                {lang === 'fr' ? 'Recommandation personnalisée' : 'Personalised recommendation'} · {new Date().toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB')}
               </div>
               <div className="print-muted" style={{ fontSize: 11, marginTop: 3 }}>
                 by Augustin Duret · linkedin.com/in/augustin-duret
@@ -717,18 +725,20 @@ export default function App() {
             {recommendation?.primary && (
               <div className="print-card">
                 <div className="print-green" style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
-                  Outil recommandé
+                  {lang === 'fr' ? 'Outil recommandé' : 'Recommended tool'}
                 </div>
                 <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 12 }}>
-                  {TOOLS[recommendation.primary.toolId]?.nameFr || recommendation.primary.toolId}
+                  {(lang === 'fr' ? TOOLS[recommendation.primary.toolId]?.nameFr : TOOLS[recommendation.primary.toolId]?.nameEn) || recommendation.primary.toolId}
                 </div>
 
                 {/* Pourquoi cet outil */}
                 <div style={{ marginBottom: 16 }}>
                   <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
-                    Pourquoi cet outil
+                    {lang === 'fr' ? 'Pourquoi cet outil' : 'Why this tool'}
                   </div>
-                  {(TOOLS[recommendation.primary.toolId]?.whyFr || []).map((reason, i) => (
+                  {((recommendation.primary._lang === lang && recommendation.primary.whyPersonalized)
+                    || (lang === 'fr' ? TOOLS[recommendation.primary.toolId]?.whyFr : TOOLS[recommendation.primary.toolId]?.whyEn)
+                    || []).map((reason, i) => (
                     <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
                       <span className="print-green" style={{ fontWeight: 700 }}>✓</span>
                       <span>{reason}</span>
@@ -739,9 +749,11 @@ export default function App() {
                 {/* Points de vigilance */}
                 <div style={{ marginBottom: 16 }}>
                   <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
-                    Points de vigilance
+                    {lang === 'fr' ? 'Points de vigilance' : 'Watch out for'}
                   </div>
-                  {(TOOLS[recommendation.primary.toolId]?.vigilanceFr || []).map((v, i) => (
+                  {((recommendation.primary._lang === lang && recommendation.primary.limitationsPersonalized)
+                    || (lang === 'fr' ? TOOLS[recommendation.primary.toolId]?.vigilanceFr : TOOLS[recommendation.primary.toolId]?.vigilanceEn)
+                    || []).map((v, i) => (
                     <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
                       <span className="print-gold">⚠</span>
                       <span>{v}</span>
@@ -751,8 +763,8 @@ export default function App() {
 
                 {/* Budget */}
                 <div>
-                  <span style={{ fontWeight: 600 }}>Accès & tarifs : </span>
-                  {TOOLS[recommendation.primary.toolId]?.budgetFr}
+                  <span style={{ fontWeight: 600 }}>{lang === 'fr' ? 'Accès & tarifs : ' : 'Access & pricing: '}</span>
+                  {lang === 'fr' ? TOOLS[recommendation.primary.toolId]?.budgetFr : TOOLS[recommendation.primary.toolId]?.budgetEn}
                 </div>
               </div>
             )}
@@ -761,7 +773,7 @@ export default function App() {
             {answers?.selectedTasks?.length > 0 && (
               <div className="print-card">
                 <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
-                  Vos tâches prioritaires
+                  {lang === 'fr' ? 'Vos tâches prioritaires' : 'Your priority tasks'}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                   {answers.selectedTasks.map(taskId => (
@@ -771,7 +783,7 @@ export default function App() {
                       padding: '2px 10px',
                       fontSize: 11
                     }}>
-                      {TASKS_BY_ID[taskId]?.labelFr || taskId}
+                      {(lang === 'fr' ? TASKS_BY_ID[taskId]?.labelFr : TASKS_BY_ID[taskId]?.labelEn) || taskId}
                     </span>
                   ))}
                 </div>
@@ -781,25 +793,25 @@ export default function App() {
             {/* Profil utilisateur */}
             <div className="print-card">
               <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
-                Votre profil
+                {lang === 'fr' ? 'Votre profil' : 'Your profile'}
               </div>
               {answers?.functions?.length > 0 && (
                 <div style={{ marginBottom: 4 }}>
-                  <span style={{ fontWeight: 600 }}>Fonctions : </span>
+                  <span style={{ fontWeight: 600 }}>{lang === 'fr' ? 'Fonctions : ' : 'Functions: '}</span>
                   {answers.functions.join(', ')}
                 </div>
               )}
               {answers?.ecosystem && answers.ecosystem !== 'unknown' && (
                 <div style={{ marginBottom: 4 }}>
-                  <span style={{ fontWeight: 600 }}>Écosystème IT : </span>
+                  <span style={{ fontWeight: 600 }}>{lang === 'fr' ? 'Écosystème IT : ' : 'IT ecosystem: '}</span>
                   {answers.ecosystem === 'microsoft365' ? 'Microsoft 365'
                     : answers.ecosystem === 'google' ? 'Google Workspace'
-                    : 'Mixte'}
+                    : lang === 'fr' ? 'Mixte' : 'Mixed'}
                 </div>
               )}
               {answers?.sector && (
                 <div>
-                  <span style={{ fontWeight: 600 }}>Secteur : </span>
+                  <span style={{ fontWeight: 600 }}>{lang === 'fr' ? 'Secteur : ' : 'Sector: '}</span>
                   {answers.sector}
                 </div>
               )}
