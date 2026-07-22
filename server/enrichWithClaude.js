@@ -57,9 +57,11 @@ function buildPrompt(result, answers, lang) {
 
   const systemMsg = fr
     ? `Tu es un expert en IA appliquée aux équipes Finance. Génère une analyse personnalisée et factuelle,
-spécifique au profil ci-dessous. Réponds UNIQUEMENT avec du JSON valide, sans texte avant ni après, sans markdown.`
+spécifique au profil ci-dessous. Réponds UNIQUEMENT avec du JSON valide, sans texte avant ni après, sans markdown.
+LANGUE OBLIGATOIRE : tout le contenu texte du JSON (whyPersonalized, limitationsPersonalized, dimNarratives) doit être rédigé ENTIÈREMENT EN FRANÇAIS. Aucun mot ni phrase en anglais, à l'exception des noms propres d'outils (Copilot, Claude, ChatGPT, Gemini, Mistral, Excel, Teams, etc.).`
     : `You are an expert in AI for Finance teams. Generate a personalised, factual analysis specific to the profile below.
-Respond ONLY with valid JSON, no text before or after, no markdown.`
+Respond ONLY with valid JSON, no text before or after, no markdown.
+MANDATORY LANGUAGE: all text content in the JSON (whyPersonalized, limitationsPersonalized, dimNarratives) must be written ENTIRELY IN ENGLISH. No words or sentences in any other language, except proper nouns for tools (Copilot, Claude, ChatGPT, Gemini, Mistral, Excel, Teams, etc.).`
 
   const userMsg = fr
     ? `PROFIL UTILISATEUR :
@@ -97,6 +99,8 @@ dimNarratives : 4 textes de 2 phrases chacun, adaptés au profil.
   - w : intégration dans leur écosystème IT spécifique (${ecoLabel})
   - t : traçabilité adaptée à leur niveau de sensibilité données (${sensiLabel})
   - g : gouvernance dans leur contexte DSI (${dsiLabel})
+
+RAPPEL : rédige tout le contenu ci-dessous exclusivement en français.
 
 {
   "whyPersonalized": ["...", "...", "..."],
@@ -144,6 +148,8 @@ dimNarratives: 4 texts of 2 sentences each, tailored to the profile.
   - t: traceability for their data sensitivity level (${sensiLabel})
   - g: governance in their IT approval context (${dsiLabel})
 
+REMINDER: write all content below exclusively in English.
+
 {
   "whyPersonalized": ["...", "...", "..."],
   "limitationsPersonalized": ["...", "..."],
@@ -156,6 +162,36 @@ dimNarratives: 4 texts of 2 sentences each, tailored to the profile.
 }`
 
   return { systemMsg, userMsg }
+}
+
+// ── Filet de sécurité : détection heuristique de la langue ───────
+// Le prompt demande explicitement fr/en, mais un LLM peut parfois
+// ignorer la consigne. On vérifie a posteriori et on rejette le
+// contenu enrichi (fallback statique) si la langue ne correspond pas.
+const FR_MARKERS = [' le ', ' la ', ' les ', ' des ', ' et ', ' pour ', ' vous ', ' votre ', ' avec ', ' dans ', ' cette ', ' une ', ' est ', ' sur ']
+const EN_MARKERS = [' the ', ' and ', ' your ', ' with ', ' this ', ' for ', ' is ', ' are ', ' that ', ' from ', ' you ', ' will ']
+
+function matchesLanguage(text, lang) {
+  if (!text) return true
+  const t = ` ${text.toLowerCase()} `
+  const frCount = FR_MARKERS.reduce((n, m) => n + (t.includes(m) ? 1 : 0), 0)
+  const enCount = EN_MARKERS.reduce((n, m) => n + (t.includes(m) ? 1 : 0), 0)
+  if (lang === 'fr') return frCount >= enCount
+  return enCount >= frCount
+}
+
+function enrichedContentMatchesLang(enriched, lang) {
+  const texts = [
+    ...(enriched.whyPersonalized || []),
+    ...(enriched.limitationsPersonalized || []),
+    ...Object.values(enriched.dimNarratives || {}),
+  ]
+  // Sur un echantillon trop court on ne peut pas juger fiablement - on laisse passer
+  const meaningful = texts.filter(t => typeof t === 'string' && t.length > 20)
+  if (meaningful.length === 0) return true
+  const mismatches = meaningful.filter(t => !matchesLanguage(t, lang)).length
+  // Tolerance : on rejette seulement si une majorite claire des textes sont dans la mauvaise langue
+  return mismatches / meaningful.length < 0.5
 }
 
 // ── Enrich one result object with Claude ─────────────────────────
@@ -175,6 +211,12 @@ async function enrichResult(client, result, answers, lang) {
     // Strip optional ```json fences
     const jsonStr = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
     const enriched = JSON.parse(jsonStr)
+
+    if (!enrichedContentMatchesLang(enriched, lang)) {
+      console.warn(`[Claude] ✗ Language mismatch for ${result.toolId} (expected ${lang}) - falling back to static content`)
+      return result
+    }
+
     console.log(`[Claude] ✓ Enriched ${result.toolId} (score ${result.score})`)
     return { ...result, ...enriched, _claudeEnriched: true, _lang: lang }
   } catch (e) {
