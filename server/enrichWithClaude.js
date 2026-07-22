@@ -174,7 +174,7 @@ async function enrichResult(client, result, answers, lang) {
     const jsonStr = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
     const enriched = JSON.parse(jsonStr)
     console.log(`[Claude] ✓ Enriched ${result.toolId} (score ${result.score})`)
-    return { ...result, ...enriched, _claudeEnriched: true }
+    return { ...result, ...enriched, _claudeEnriched: true, _lang: lang }
   } catch (e) {
     console.error(`[Claude] ✗ Enrichment failed for ${result.toolId}:`, e.message)
     return result  // silent fallback to base result
