@@ -1,4 +1,5 @@
 import express from 'express'
+import rateLimit from 'express-rate-limit'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import { computeRecommendation } from '../src/engine/recommendationEngine.js'
@@ -8,6 +9,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
 
 app.use(express.json())
+
+// Rate limit /api/recommend - each call fires 2 Claude API requests, protect against cost abuse
+const recommendLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1h
+  limit: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please try again later.' },
+})
 
 // ── Cloudflare Turnstile verification ───────────────────────────
 async function verifyTurnstile(token, ip) {
@@ -39,7 +49,7 @@ app.use(express.static(path.join(__dirname, '../dist')))
 // 1. Run the deterministic scoring engine (fast, always works)
 // 2. Enrich with Claude API if ANTHROPIC_API_KEY is set
 // 3. Return enriched recommendation (or base if enrichment fails)
-app.post('/api/recommend', async (req, res) => {
+app.post('/api/recommend', recommendLimiter, async (req, res) => {
   try {
     const { answers, lang = 'fr', turnstileToken } = req.body
     if (!answers) return res.status(400).json({ error: 'answers required' })

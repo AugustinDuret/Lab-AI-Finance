@@ -190,8 +190,9 @@ export default function PdfExportButton({ recommendation, answers, lang }) {
         const toolRGB   = hex2rgb(toolData.logoBg ?? '#2D7060');
         const logoIni   = a(toolData.logoInitial ?? toolId.slice(0,2).toUpperCase());
         const logoPng   = LOGOS[toolId] ? await svgToPng(LOGOS[toolId], 80) : null;
-        const reasons  = (lang === 'fr' ? toolData.whyFr       : toolData.whyEn)       ?? [];
-        const vigilance= (lang === 'fr' ? toolData.vigilanceFr : toolData.vigilanceEn) ?? [];
+        const langMatch = primary._lang === lang;
+        const reasons  = (langMatch && primary.whyPersonalized) || (lang === 'fr' ? toolData.whyFr       : toolData.whyEn)       || [];
+        const vigilance= (langMatch && primary.limitationsPersonalized) || (lang === 'fr' ? toolData.vigilanceFr : toolData.vigilanceEn) || [];
         const budget   = (lang === 'fr' ? toolData.budgetFr    : toolData.budgetEn)    ?? '';
 
         // ── Titre de page ────────────────────────────────────────
@@ -372,7 +373,7 @@ export default function PdfExportButton({ recommendation, answers, lang }) {
 
           dims.forEach(({ key, label, weight, score }) => {
             const barColor  = score >= 75 ? GREEN : score >= 55 ? GOLD : [200, 80, 80];
-            const narrative = primary.dimNarratives?.[key] || generateDimNarrative(primary.toolId, key, score, answers, lang);
+            const narrative = (langMatch && primary.dimNarratives?.[key]) || generateDimNarrative(primary.toolId, key, score, answers, lang);
             const narLines  = narrative ? doc.splitTextToSize(a(narrative), CW - 8) : [];
             const itemH     = 6 + 5 + (narLines.length > 0 ? narLines.length * lh(8) + 4 : 0) + 8;
 

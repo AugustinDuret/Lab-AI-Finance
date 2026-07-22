@@ -255,7 +255,8 @@ export function computeRecommendation(answers) {
     dataSensitivity = 'medium',   // 'low' | 'medium' | 'high'
   } = answers
 
-  const isSensitive = dataSensitivity === 'high'
+  const hasSensitiveTask = selectedTasks.some(taskId => TASKS_BY_ID[taskId]?.sensible)
+  const isSensitive = dataSensitivity === 'high' || hasSensitiveTask
   const TOOL_IDS = ['copilot', 'claude', 'chatgpt', 'gemini', 'mistral']
 
   // 1. Calculer le score moyen par outil sur les tâches sélectionnées

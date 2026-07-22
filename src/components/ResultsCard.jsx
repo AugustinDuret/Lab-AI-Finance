@@ -211,7 +211,8 @@ export default function ResultsCard({ result, t, lang, isPrimary, ecosystem, ans
                   { key: 't', label: lang === 'fr' ? 'Traçabilité / Audit' : 'Traceability / Audit', weight: '20%', color: '#C4A35A', score: result.dimScores?.t ?? Math.round(result.score * 0.85) },
                   { key: 'g', label: lang === 'fr' ? 'Gouvernance / Déploiement' : 'Governance / Deployment', weight: '10%', color: '#8FA89A', score: result.dimScores?.g ?? Math.round(result.score * 0.8) }
                 ].map(dim => {
-                  const narrative = result.dimNarratives?.[dim.key] || generateDimNarrative(result.toolId, dim.key, dim.score, answers, lang);
+                  const narrative = (result.dimNarratives && result._lang === lang ? result.dimNarratives[dim.key] : null)
+                    || generateDimNarrative(result.toolId, dim.key, dim.score, answers, lang);
                   return (
                     <div key={dim.key}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: narrative ? 6 : 0 }}>
