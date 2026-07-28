@@ -9,8 +9,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // In dev, proxy /api calls to the local Express server (port 3001)
-      '/api': 'http://localhost:3001',
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
     },
   },
 })

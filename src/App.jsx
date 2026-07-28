@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useLanguage } from './hooks/useLanguage.js'
 import { useIsMobile } from './hooks/useIsMobile.js'
+import ChatBot from './components/ChatBot.jsx'
 import { computeRecommendation } from './engine/recommendationEngine.js'
 import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
@@ -863,6 +864,11 @@ export default function App() {
 
       <Footer t={t} lang={lang} />
       </div>
+      <ChatBot
+        lang={lang}
+        userProfile={answers}
+        recommendation={recommendation}
+      />
     </div>
   )
 }
